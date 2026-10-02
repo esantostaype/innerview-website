@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/ibm-plex-sans/wdth.css';
 @import 'locomotive-scroll/dist/locomotive-scroll.css';
+@import './product.css';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
@@ -56,12 +57,12 @@
   --rule: #1b2532;
   --rule-strong: #2c3a4b;
 
-  --primary: #19b8ff;
-  --primary-hover: #5ccbff;
-  --primary-fg: #03121c;
+  --primary: #4aaef0;
+  --primary-hover: #74c2f5;
+  --primary-fg: #04121d;
   --spark-from: #00b4ff;
   --spark-to: #00ffff;
-  --accent: #3fd6ff;
+  --accent: #5cc4ea;
 
   --ink: #0d1620;
   --ink-raised: #13202d;
@@ -296,41 +297,6 @@
   display: block;
 }
 
-/* ------------------------------------------------------------------
-   Reveal system (driven by Locomotive's is-inview class)
-   Content is visible by default; motion only applies once JS marks
-   the document as ready, and never under reduced motion.
-   ------------------------------------------------------------------ */
-html.motion-ready [data-reveal] {
-  opacity: 0;
-  transform: translate3d(0, 28px, 0);
-  transition:
-    opacity 900ms var(--ease-out-expo),
-    transform 1100ms var(--ease-out-expo);
-  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
-}
-
-html.motion-ready [data-reveal].is-inview {
-  opacity: 1;
-  transform: none;
-}
-
-html.motion-ready [data-reveal='fade'] {
-  transform: none;
-}
-
-html.motion-ready [data-reveal='rise-clip'] {
-  opacity: 1;
-  transform: none;
-  clip-path: inset(0 0 100% 0);
-  transition: clip-path 1200ms var(--ease-out-expo);
-  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
-}
-
-html.motion-ready [data-reveal='rise-clip'].is-inview {
-  clip-path: inset(0 0 0 0);
-}
-
 /* Line-by-line headline reveal */
 .split-line {
   display: block;
@@ -343,33 +309,23 @@ html.motion-ready [data-reveal='rise-clip'].is-inview {
   display: block;
 }
 
-html.motion-ready [data-reveal-lines] .split-line > span {
-  transform: translate3d(0, 105%, 0);
-  transition: transform 1100ms var(--ease-out-expo);
-  transition-delay: calc(var(--line, 0) * 90ms + var(--reveal-delay, 0) * 1ms);
+/* Subtle technical grid (sections only, never the hero).
+   Hairlines at low opacity, masked so the grid dissolves toward the edges. */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--fg) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--fg) 7%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center top;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 0%, rgb(0 0 0 / 0.55) 45%, transparent 78%);
 }
-
-html.motion-ready [data-reveal-lines].is-inview .split-line > span {
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html.motion-ready [data-reveal],
-  html.motion-ready [data-reveal='rise-clip'],
-  html.motion-ready [data-reveal-lines] .split-line > span {
-    opacity: 1 !important;
-    transform: none !important;
-    clip-path: none !important;
-    transition: none !important;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-  }
+:root[data-theme='dark'] .bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
 }
 
 /* ------------------------------------------------------------------

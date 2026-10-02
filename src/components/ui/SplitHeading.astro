@@ -1,7 +1,7 @@
 ---
 /**
- * Headline revealed line by line (mask + translate). Lines are authored,
- * not measured, so breaks stay intentional at every width.
+ * Headline revealed line by line (mask + rise, driven by scripts/reveal.ts).
+ * Lines are authored, not measured, so breaks stay intentional at every width.
  */
 interface Props {
   as?: 'h1' | 'h2' | 'h3' | 'p';
@@ -15,20 +15,11 @@ interface Props {
 const { as: Tag = 'h2', lines, class: className, lineClass, delay = 0, id } = Astro.props;
 ---
 
-<Tag
-  id={id}
-  class={className}
-  data-scroll
-  data-reveal-lines
-  style={`--reveal-delay:${delay}`}
-  aria-label={lines.join(' ')}
->
+<Tag id={id} class={className} data-anim="lines" data-anim-delay={delay || undefined} aria-label={lines.join(' ')}>
   {
     lines.map((line, i) => (
       <span class="split-line" aria-hidden="true">
-        <span style={`--line:${i}`} class={lineClass?.(i)}>
-          {line}
-        </span>
+        <span class={lineClass?.(i)}>{line}</span>
       </span>
     ))
   }

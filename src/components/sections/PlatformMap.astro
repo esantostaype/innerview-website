@@ -1,0 +1,278 @@
+---
+import SplitHeading from '../ui/SplitHeading.astro';
+import Icon from '../ui/Icon.astro';
+import BrandMark from '../ui/BrandMark.astro';
+import {
+  File02Icon,
+  Analytics01Icon,
+  Calculator01Icon,
+  InboxIcon,
+  Settings01Icon,
+  CheckmarkCircle02Icon,
+  Database01Icon,
+} from '@hugeicons/core-free-icons';
+
+const sources = [
+  { name: 'General Ledger', period: 'Sep 2026' },
+  { name: 'Chart of Accounts', period: 'Current' },
+  { name: 'Rent Roll', period: 'Sep 30, 2026' },
+  { name: 'Vendors', period: '1,042 records' },
+  { name: 'Invoice History', period: 'FY 2026' },
+];
+
+const datasets = ['Properties & units', 'Chart of accounts', 'Vendors', 'General ledger', 'Invoice history'];
+
+const areas = [
+  { id: 'analyze', name: 'Analyze', icon: Analytics01Icon, body: 'Financials and performance for every property, every period.' },
+  { id: 'plan', name: 'Plan', icon: Calculator01Icon, body: 'Budgets and forecasts that start from your actuals, plus debt and capital.' },
+  { id: 'operate', name: 'Operate', icon: InboxIcon, body: 'Payables processed from the inbox to ResMan, and the data that feeds it all.' },
+  { id: 'administer', name: 'Administer', icon: Settings01Icon, body: 'Roles, approvals and an audit trail on every change.' },
+];
+---
+
+<section id="platform" class="map relative scroll-mt-16 overflow-x-clip py-[var(--spacing-section)]" aria-labelledby="map-title" data-map>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <div class="container-site relative">
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+      <SplitHeading
+        id="map-title"
+        lines={['Analyze, plan and operate,', 'on the same data.']}
+        class="text-h1 font-[350] lg:col-span-8"
+      />
+      <p class="max-w-sm text-body text-muted lg:col-span-4" data-anim="up">
+        InnerView is organized the way a real estate finance team works: four areas, one workspace, one governed source
+        of data underneath.
+      </p>
+    </div>
+
+    <div class="map-stage mt-16 md:mt-24" data-map-stage>
+      <svg class="map-lines" data-map-lines aria-hidden="true"></svg>
+
+      <!-- Sources -->
+      <div class="map-col map-sources" aria-label="ResMan reports">
+        <p class="map-label">From ResMan</p>
+        <ul class="grid gap-2.5">
+          {
+            sources.map((s, i) => (
+              <li class="map-source" data-map-source data-anim="up" data-anim-delay={i * 60}>
+                <span class="map-source-ic"><Icon icon={File02Icon} size={14} /></span>
+                <span class="grid">
+                  <span class="text-label font-medium text-fg">{s.name}</span>
+                  <span class="text-caption text-subtle">{s.period}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Core -->
+      <div class="map-col map-core-col">
+        <div class="map-core" data-map-core data-anim="up">
+          <div class="flex items-center gap-3">
+            <span class="map-core-mark"><BrandMark size={18} id="map-mark" /></span>
+            <span class="grid">
+              <span class="font-medium text-fg">Data Hub</span>
+              <span class="text-caption text-subtle">Active context · v2026.09.28</span>
+            </span>
+          </div>
+          <ul class="mt-5 grid gap-2">
+            {
+              datasets.map((d) => (
+                <li class="flex items-center justify-between gap-3 text-small text-muted">
+                  {d}
+                  <span class="text-ready"><Icon icon={CheckmarkCircle02Icon} size={14} /></span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="map-core-foot">Immutable snapshots · one active release</p>
+        </div>
+      </div>
+
+      <!-- Areas -->
+      <ul class="map-col map-areas" aria-label="The four areas of InnerView">
+        {
+          areas.map((a, i) => (
+            <li class="map-area" data-map-area data-anim="up" data-anim-delay={120 + i * 80}>
+              <span class="map-area-ic"><Icon icon={a.icon} size={18} /></span>
+              <span class="grid gap-1">
+                <span class="text-h3 font-[450] text-fg">{a.name}</span>
+                <span class="text-small text-muted">{a.body}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <p class="mt-14 flex max-w-xl items-start gap-3 text-body text-muted md:mt-20" data-anim="up">
+      <span class="mt-0.5 text-primary"><Icon icon={Database01Icon} size={18} /></span>
+      All of it reads from one governed Data Hub, built on your ResMan reports.
+    </p>
+  </div>
+</section>
+
+<style>
+  .map-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr) minmax(0, 1.25fr);
+    align-items: center;
+    gap: clamp(3rem, 7vw, 7.5rem);
+  }
+  .map-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .map-label {
+    margin-bottom: 0.875rem;
+    font-size: var(--text-caption);
+    color: var(--fg-subtle);
+  }
+  .map-source {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    background: var(--bg-raised);
+    box-shadow: 0 0 0 1px var(--rule), 0 6px 16px -12px rgb(10 17 28 / 0.25);
+  }
+  .map-source-ic {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 6px;
+    background: var(--bg-sunken);
+    color: var(--fg-subtle);
+  }
+
+  .map-core {
+    position: relative;
+    padding: 1.25rem 1.25rem 1rem;
+    border-radius: 14px;
+    background: var(--bg-raised);
+    box-shadow:
+      0 0 0 1px var(--rule),
+      0 40px 80px -40px rgb(10 17 28 / 0.35),
+      0 0 0 6px color-mix(in oklab, var(--primary) 6%, transparent);
+  }
+  :global(:root[data-theme='dark']) .map-core {
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.08),
+      0 40px 80px -40px rgb(0 0 0 / 0.9),
+      0 0 0 6px color-mix(in oklab, var(--primary) 9%, transparent);
+  }
+  .map-core-mark {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 8px;
+    background: var(--bg-sunken);
+  }
+  .map-core-foot {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--rule);
+    font-size: var(--text-caption);
+    color: var(--fg-subtle);
+  }
+
+  .map-areas {
+    display: grid;
+    gap: 0;
+  }
+  .map-area {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .map-area:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+  .map-area-ic {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 8px;
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 9%, transparent);
+  }
+
+  /* Lines drawn by scripts/sections.ts */
+  .map-lines :global(.map-line) {
+    fill: none;
+    stroke: var(--rule-strong);
+    stroke-width: 1;
+  }
+  .map-lines :global(.map-pulse) {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-dasharray: 14 400;
+    animation: map-pulse 3.2s linear infinite;
+    opacity: 0;
+  }
+  .map-lines.is-live :global(.map-pulse) {
+    opacity: 0.9;
+  }
+  @keyframes map-pulse {
+    from {
+      stroke-dashoffset: 414;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .map-stage {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .map-lines {
+      display: none;
+    }
+    .map-sources ul {
+      grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    }
+    .map-core-col {
+      position: relative;
+    }
+    .map-core-col::before,
+    .map-core-col::after {
+      content: '';
+      position: absolute;
+      left: 2rem;
+      width: 1px;
+      height: 2.5rem;
+      background: var(--rule-strong);
+    }
+    .map-core-col::before {
+      top: -2.5rem;
+    }
+    .map-core-col::after {
+      bottom: -2.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .map-lines :global(.map-pulse) {
+      animation: none;
+      display: none;
+    }
+  }
+</style>

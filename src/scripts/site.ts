@@ -3,6 +3,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initHero } from './hero';
 import { initPatchwork } from './patchwork';
 import { initOverlayScrollbars } from './scrollbars';
+import { initReveal } from './reveal';
+import { initPlatformMap } from './platformMap';
+import { initAreas } from './areas';
+import { initSections } from './sections';
 
 type ThemePref = 'light' | 'dark' | 'system';
 const THEME_KEY = 'iv-theme';
@@ -265,7 +269,15 @@ export function initSite() {
   let cleanups: Array<() => void> = [];
 
   document.addEventListener('astro:page-load', () => {
-    cleanups = [initHero(), initPatchwork(), initOverlayScrollbars()].filter((c): c is () => void => typeof c === 'function');
+    cleanups = [
+      initReveal(),
+      initHero(),
+      initPatchwork(),
+      initPlatformMap(),
+      initAreas(),
+      initSections(),
+      initOverlayScrollbars(),
+    ].filter((c): c is () => void => typeof c === 'function');
     bindThemeControls();
     bindHeader();
     bindStageTicker();

@@ -1,0 +1,328 @@
+---
+import Icon from '../ui/Icon.astro';
+import AnalyzeUI from '../ui-product/AnalyzeUI.astro';
+import PlanUI from '../ui-product/PlanUI.astro';
+import OperateUI from '../ui-product/OperateUI.astro';
+import {
+  Analytics01Icon,
+  Calculator01Icon,
+  InboxIcon,
+  ChartLineData01Icon,
+  Book02Icon,
+  GitCompareIcon,
+  Building03Icon,
+  Route01Icon,
+  Clock01Icon,
+  Download04Icon,
+  ArrowRight01Icon,
+} from '@hugeicons/core-free-icons';
+
+const financials = ['Profit & Loss', 'Balance sheet', 'Cash flow', 'General ledger', 'Management fees'];
+const performance = ['Leasing & occupancy', 'Revenue & delinquency', 'Expense benchmarks', 'Utilities & RUBS'];
+
+const planHighlights = [
+  { icon: Book02Icon, label: 'Actuals from the ledger' },
+  { icon: GitCompareIcon, label: 'Compare forecasts' },
+  { icon: Building03Icon, label: 'Rent, lease by lease' },
+  { icon: Route01Icon, label: 'Trace any number' },
+  { icon: Clock01Icon, label: 'Versions, never overwrites' },
+  { icon: Download04Icon, label: 'Official ResMan exports' },
+];
+
+const apSteps = ['Inbox', 'Read', 'Code', 'Review', 'Ready to post'];
+---
+
+<section class="areas relative py-[var(--spacing-section)]" aria-label="The areas of InnerView" data-areas>
+  <div class="container-site">
+    <ol class="areas-stack" data-areas-stack>
+      <!-- ANALYZE -->
+      <li class="area" data-area id="analyze">
+        <div class="area-card" data-area-card>
+          <div class="area-shade" data-area-shade></div>
+          <div class="area-copy">
+            <p class="area-tag"><Icon icon={Analytics01Icon} size={14} />Analyze</p>
+            <h2 class="area-title">How every property is doing, and why.</h2>
+            <p class="area-body">
+              Income statement, balance sheet, cash flow and the general ledger by property and period, against budget
+              and prior year. Leasing, collections, expenses per unit and utilities, from the ResMan reports you already
+              run.
+            </p>
+            <div class="area-lists">
+              <div>
+                <p class="area-list-title"><Icon icon={Analytics01Icon} size={13} />Financials</p>
+                <ul>{financials.map((f) => <li>{f}</li>)}</ul>
+              </div>
+              <div>
+                <p class="area-list-title"><Icon icon={ChartLineData01Icon} size={13} />Performance</p>
+                <ul>{performance.map((f) => <li>{f}</li>)}</ul>
+              </div>
+            </div>
+          </div>
+          <div class="area-visual">
+            <div class="ui-frame area-ui" data-zoom-fit="720"><AnalyzeUI /></div>
+          </div>
+        </div>
+      </li>
+
+      <!-- PLAN -->
+      <li class="area" data-area id="plan">
+        <div class="area-card" data-area-card>
+          <div class="area-shade" data-area-shade></div>
+          <div class="area-copy">
+            <p class="area-tag"><Icon icon={Calculator01Icon} size={14} />Plan</p>
+            <h2 class="area-title">Budgets that start from your actuals.</h2>
+            <p class="area-body">
+              Every property's budget opens on its posted general ledger. Choose a method for each account, compare
+              forecasts side by side, let rent follow your rent roll lease by lease, and trace any number back to its
+              source. Export the official ResMan upload when it's approved.
+            </p>
+            <ul class="area-highlights">
+              {
+                planHighlights.map((h) => (
+                  <li>
+                    <Icon icon={h.icon} size={15} />
+                    {h.label}
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="area-note">
+              Cash forecast, scenarios, debt and covenants, capex and reserves, and returns, alongside the operating plan.
+            </p>
+          </div>
+          <div class="area-visual">
+            <div class="ui-frame area-ui" data-zoom-fit="760"><PlanUI /></div>
+          </div>
+        </div>
+      </li>
+
+      <!-- OPERATE -->
+      <li class="area" data-area id="operate">
+        <div class="area-card" data-area-card>
+          <div class="area-shade" data-area-shade></div>
+          <div class="area-copy">
+            <p class="area-tag"><Icon icon={InboxIcon} size={14} />Operate</p>
+            <h2 class="area-title">Invoices in. ResMan-ready out.</h2>
+            <p class="area-body">
+              Vendor bills arrive from Outlook or upload, in any format. InnerView reads each one with its vendor's
+              parser, matches property and unit, resolves the GL account and reconciles totals. Clean invoices go into
+              the file; anything doubtful waits for a person.
+            </p>
+            <ol class="area-steps">
+              {
+                apSteps.map((s, i) => (
+                  <li>
+                    <span>{s}</span>
+                    {i < apSteps.length - 1 && <Icon icon={ArrowRight01Icon} size={13} />}
+                  </li>
+                ))
+              }
+            </ol>
+            <p class="area-states">
+              <span class="ui-chip is-ready">Ready</span>
+              <span class="ui-chip is-review">Needs review</span>
+              <span class="ui-chip is-blocked">Blocked</span>
+            </p>
+            <blockquote class="area-quote">“Explain what source evidence supports this correction.”</blockquote>
+          </div>
+          <div class="area-visual">
+            <div class="ui-frame area-ui" data-zoom-fit="760"><OperateUI /></div>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .areas-stack {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .area-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+    min-height: min(80vh, 46rem);
+    padding: clamp(1.75rem, 3.5vw, 3.25rem);
+    border-radius: 20px;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      radial-gradient(120% 80% at 100% 0%, color-mix(in oklab, var(--spark-from) 6%, transparent), transparent 60%),
+      var(--bg-raised);
+    box-shadow:
+      0 0 0 1px var(--rule),
+      0 -20px 60px -40px rgb(10 17 28 / 0.25);
+    transform-origin: 50% 0%;
+  }
+  :global(:root[data-theme='dark']) .area-card {
+    background:
+      radial-gradient(120% 80% at 100% 0%, color-mix(in oklab, var(--spark-from) 9%, transparent), transparent 60%),
+      var(--bg-raised);
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.07),
+      0 -30px 80px -40px rgb(0 0 0 / 0.9);
+  }
+  .area-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: var(--bg);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .area-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    font-size: var(--text-label);
+    font-weight: 500;
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 9%, transparent);
+  }
+  .area-title {
+    margin-top: 1.25rem;
+    font-size: var(--text-h2);
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    font-weight: 350;
+  }
+  .area-body {
+    margin-top: 1.1rem;
+    max-width: 30rem;
+    font-size: var(--text-body);
+    color: var(--fg-muted);
+  }
+
+  .area-lists {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .area-list-title {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: var(--text-label);
+    font-weight: 500;
+  }
+  .area-list-title :global(svg) {
+    color: var(--fg-subtle);
+  }
+  .area-lists li {
+    padding: 0.3rem 0;
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  .area-highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem 1.25rem;
+    margin-top: 1.75rem;
+  }
+  .area-highlights li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0;
+    border-top: 1px solid var(--rule);
+    font-size: var(--text-small);
+  }
+  .area-highlights :global(svg) {
+    color: var(--primary);
+    flex: none;
+  }
+  .area-note {
+    margin-top: 1.5rem;
+    font-size: var(--text-caption);
+    color: var(--fg-subtle);
+    max-width: 26rem;
+  }
+
+  .area-steps {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+    margin-top: 1.75rem;
+    font-size: var(--text-small);
+  }
+  .area-steps li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .area-steps li span {
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px var(--rule);
+  }
+  .area-steps li:last-child span {
+    color: var(--primary-fg);
+    background: var(--primary);
+    box-shadow: none;
+  }
+  .area-steps :global(svg) {
+    color: var(--fg-subtle);
+  }
+  .area-states {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+  }
+  .area-quote {
+    margin-top: 1.25rem;
+    max-width: 24rem;
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+    font-style: italic;
+  }
+
+  .area-visual {
+    min-width: 0;
+  }
+  .area-ui {
+    width: 100%;
+  }
+
+  /* Stacking (desktop): each card sticks a little lower than the one before */
+  @media (min-width: 1024px) {
+    .area {
+      position: sticky;
+      top: calc(5.5rem + var(--i, 0) * 1.25rem);
+    }
+    .area:nth-child(1) {
+      --i: 0;
+    }
+    .area:nth-child(2) {
+      --i: 1;
+    }
+    .area:nth-child(3) {
+      --i: 2;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .area-card {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+  }
+  @media (max-width: 520px) {
+    .area-lists,
+    .area-highlights {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

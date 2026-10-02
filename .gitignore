@@ -3,3 +3,4 @@ dist/
 .astro/
 .impeccable/config.local.json
 .capture/
+.archive/
