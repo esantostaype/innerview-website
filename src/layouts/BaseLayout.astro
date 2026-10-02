@@ -1,0 +1,79 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { site } from '../data/content';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — ${site.claim}`;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#05090f" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Theme boot: runs before paint, so there is no flash. Re-applied after each view transition swap. -->
+    <script is:inline>
+      (() => {
+        const KEY = 'iv-theme';
+        const apply = (doc) => {
+          let pref = 'system';
+          try {
+            pref = localStorage.getItem(KEY) || 'system';
+          } catch (e) {}
+          const dark = pref === 'dark' || (pref === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+          doc.documentElement.dataset.theme = dark ? 'dark' : 'light';
+          doc.documentElement.dataset.themePref = pref;
+        };
+        apply(document);
+        // Motion flag before first paint, so animated elements never flash in their final state
+        const motion = () => {
+          if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion-ready');
+        };
+        motion();
+        document.addEventListener('astro:after-swap', () => {
+          apply(document);
+          motion();
+        });
+        window.__ivApplyTheme = () => apply(document);
+      })();
+    </script>
+
+    <ClientRouter fallback="swap" />
+  </head>
+  <body class="bg-bg text-fg">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-fg focus:px-4 focus:py-2 focus:text-label focus:text-bg"
+      >Skip to content</a
+    >
+    <SiteHeader />
+    <main id="main" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <SiteFooter />
+
+    <script>
+      import { initSite } from '../scripts/site';
+      initSite();
+    </script>
+  </body>
+</html>

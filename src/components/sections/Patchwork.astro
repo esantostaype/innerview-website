@@ -1,0 +1,438 @@
+---
+import Icon from '../ui/Icon.astro';
+import { Mail01Icon, Xls01Icon, Csv01Icon, MailSend01Icon, Attachment01Icon, Pdf01Icon } from '@hugeicons/core-free-icons';
+
+const statement =
+  'Most portfolios still run on a patchwork. Invoices live in an inbox, budgets in spreadsheets, the ledger in ResMan exports and owner reports in email attachments.';
+const words = statement.split(' ');
+---
+
+<section id="platform" class="patch relative scroll-mt-16 overflow-x-clip" aria-labelledby="patch-title" data-patch>
+  <div class="patch-bg" aria-hidden="true"><span data-patch-glow></span></div>
+
+  <div class="container-site relative py-[var(--spacing-section)]">
+    <h2 id="patch-title" class="sr-only">The month-end patchwork</h2>
+
+    <p class="patch-statement text-h2 font-[350] lg:w-[83%]" data-patch-statement>
+      {
+        words.map((w) => (
+          <>
+            <span class="word">{w}</span>{' '}
+          </>
+        ))
+      }
+    </p>
+
+    <!-- The four places month-end lives today (fictional sample content) -->
+    <div class="patch-stage" data-patch-stage aria-hidden="true">
+      <svg class="patch-thread" viewBox="0 0 1200 640" preserveAspectRatio="none" data-patch-thread-svg>
+        <path
+          data-patch-thread
+          d="M190 120 C 360 120, 520 60, 760 100 S 1010 250, 900 360 S 470 330, 330 430 S 520 600, 860 560 S 1060 600, 1120 640"
+        ></path>
+      </svg>
+
+      <!-- A · Outlook inbox -->
+      <div class="frag frag-a" data-frag data-rot="-2" data-depth="0.7">
+        <div class="frag-head">
+          <Icon icon={Mail01Icon} size={14} />
+          <span>Inbox · ap@northlineres.com</span>
+          <em>214 unread</em>
+        </div>
+        <ul class="mail">
+          <li class="is-unread">
+            <i></i>
+            <span><b>Cumberland Power &amp; Light</b><span>Statement 0925-118344 · Riverbend Flats</span></span>
+            <span class="t">9:42 AM</span>
+          </li>
+          <li class="is-unread">
+            <i></i>
+            <span><b>Summit HVAC Services</b><span>Invoice SH-20931 (2 attachments)</span></span>
+            <span class="t">Yesterday</span>
+          </li>
+          <li>
+            <i></i>
+            <span><b>GreenScape Landscaping</b><span>RE: September service — corrected invoice</span></span>
+            <span class="t">Sep 29</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- B · Budget spreadsheet -->
+      <div class="frag frag-b" data-frag data-rot="1.6" data-depth="1.25">
+        <div class="frag-head">
+          <Icon icon={Xls01Icon} size={14} />
+          <span>Budget_FY27_Riverbend_v7_FINAL (2).xlsx</span>
+        </div>
+        <div class="sheet">
+          <span class="h">GL</span><span class="h">Account</span><span class="h n">Oct</span><span class="h n">Nov</span><span class="h n">Dec</span>
+          <span>6510</span><span>Electricity</span><span class="n">18,240</span><span class="n">18,410</span><span class="n err">#REF!</span>
+          <span>6420</span><span>HVAC repairs</span><span class="n">4,100</span><span class="n">4,100</span><span class="n">4,100</span>
+          <span>5110</span><span>Payroll · site</span><span class="n">41,882</span><span class="n">41,882</span><span class="n">43,140</span>
+          <span>6610</span><span>Landscaping</span><span class="n">2,950</span><span class="n sel">2,950</span><span class="n">1,475</span>
+        </div>
+      </div>
+
+      <!-- C · ResMan ledger export -->
+      <div class="frag frag-c" data-frag data-rot="1" data-depth="0.45">
+        <div class="frag-head">
+          <Icon icon={Csv01Icon} size={14} />
+          <span>GL_Detail_Sep2026.csv</span>
+          <em>Exported Oct 1, 7:58 AM</em>
+        </div>
+        <div class="csv">
+          <span>09/26/2026</span><span>6510</span><span>Electricity</span><span>RIV</span><span class="n">18,240.55</span>
+          <span>09/27/2026</span><span>6420</span><span>HVAC repairs</span><span>RIV</span><span class="n">1,284.00</span>
+          <span>09/28/2026</span><span>6610</span><span>Landscaping</span><span>MAG</span><span class="n">2,950.00</span>
+          <span>09/29/2026</span><span>6530</span><span>Water / sewer</span><span>NGC</span><span class="n">7,412.90</span>
+        </div>
+      </div>
+
+      <!-- D · Owner report email -->
+      <div class="frag frag-d" data-frag data-rot="-1.4" data-depth="1">
+        <div class="frag-head">
+          <Icon icon={MailSend01Icon} size={14} />
+          <span>Draft · Q3 owner report</span>
+        </div>
+        <div class="draft">
+          <p><span class="k">To</span>Harbor Point Capital LP</p>
+          <p><span class="k">Subject</span>Q3 statements and distribution · Riverbend Flats</p>
+          <p class="body">Hi Daniel, attached are the Q3 statements. The distribution calc still needs the September close, I’ll resend…</p>
+          <p class="att">
+            <span><Icon icon={Pdf01Icon} size={12} />Q3_Statements_v3.pdf</span>
+            <span><Icon icon={Attachment01Icon} size={12} />Distribution_Calc.xlsx</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p class="patch-close text-h3 font-[350]" data-patch-close>
+      Every month-end, someone stitches them back together <span class="text-subtle">by hand.</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  /* Depth: a slightly darker band with one soft light field behind the fragments */
+  /* Transparent at both ends, so it melts into whatever sits above and below */
+  .patch {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      color-mix(in oklab, var(--bg-sunken) 45%, transparent) 40%,
+      color-mix(in oklab, var(--bg-sunken) 45%, transparent) 60%,
+      transparent 100%
+    );
+  }
+  .patch-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .patch-bg span {
+    position: absolute;
+    left: 50%;
+    top: 58%;
+    width: min(1100px, 120vw);
+    aspect-ratio: 1.8;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in oklab, var(--spark-from) 8%, transparent), transparent);
+  }
+
+  .patch-statement {
+    line-height: 1.16;
+    letter-spacing: -0.026em;
+  }
+  .word {
+    display: inline-block;
+  }
+
+  /* Stage */
+  .patch-stage {
+    position: relative;
+    height: 600px;
+    margin-top: clamp(3rem, 5vw, 5rem);
+  }
+  .patch-thread {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .patch-thread path {
+    fill: none;
+    stroke: var(--rule-strong);
+    stroke-width: 1.25;
+    stroke-dasharray: 3 7;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .frag {
+    position: absolute;
+    border-radius: 10px;
+    background: var(--bg-raised);
+    box-shadow:
+      0 0 0 1px var(--rule),
+      0 30px 60px -30px rgb(10 17 28 / 0.32),
+      0 10px 20px -14px rgb(10 17 28 / 0.18);
+    font-size: 12.5px;
+    line-height: 1.42;
+    font-variant-numeric: tabular-nums;
+    will-change: transform;
+    overflow: hidden;
+  }
+  :global(:root[data-theme='dark']) .frag {
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.07),
+      0 40px 80px -30px rgb(0 0 0 / 0.85);
+  }
+  .frag-a {
+    left: 1%;
+    top: 40px;
+    width: 410px;
+  }
+  .frag-b {
+    left: 50%;
+    top: 0;
+    width: 500px;
+  }
+  .frag-c {
+    left: 12%;
+    top: 320px;
+    width: 470px;
+  }
+  .frag-d {
+    left: 58%;
+    top: 330px;
+    width: 420px;
+  }
+
+  .frag-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--rule);
+    background: color-mix(in oklab, var(--bg-sunken) 55%, var(--bg-raised));
+    color: var(--fg);
+    font-weight: 500;
+  }
+  .frag-head :global(svg) {
+    color: var(--fg-subtle);
+    flex: none;
+  }
+  .frag-head span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .frag-head em {
+    margin-left: auto;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--fg-subtle);
+    white-space: nowrap;
+  }
+
+  /* Mail list */
+  .mail li {
+    display: grid;
+    grid-template-columns: 8px 1fr auto;
+    gap: 10px;
+    align-items: start;
+    padding: 9px 12px;
+    border-top: 1px solid var(--rule);
+  }
+  .mail li:first-child {
+    border-top: 0;
+  }
+  .mail i {
+    width: 6px;
+    height: 6px;
+    margin-top: 6px;
+    border-radius: 99px;
+  }
+  .mail .is-unread i {
+    background: var(--primary);
+  }
+  .mail b {
+    display: block;
+    font-weight: 500;
+  }
+  .mail li > span:nth-child(2) {
+    display: grid;
+    min-width: 0;
+    color: var(--fg-muted);
+  }
+  .mail li > span:nth-child(2) span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mail .t {
+    color: var(--fg-subtle);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* Spreadsheet */
+  .sheet {
+    display: grid;
+    grid-template-columns: 52px 1fr repeat(3, 64px);
+  }
+  .sheet span {
+    padding: 6px 10px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+  .sheet span:nth-child(5n) {
+    border-right: 0;
+  }
+  .sheet .h {
+    background: var(--bg-sunken);
+    color: var(--fg-subtle);
+    font-size: 11px;
+  }
+  .sheet .n {
+    text-align: right;
+  }
+  .sheet .err {
+    color: var(--state-blocked);
+    background: color-mix(in oklab, var(--state-blocked) 9%, transparent);
+    font-weight: 500;
+  }
+  .sheet .sel {
+    box-shadow: inset 0 0 0 2px #1f7a46;
+  }
+
+  /* CSV */
+  .csv {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto;
+    column-gap: 14px;
+    padding: 8px 12px 10px;
+    color: var(--fg-muted);
+  }
+  .csv span {
+    padding: 4px 0;
+    white-space: nowrap;
+  }
+  .csv .n {
+    text-align: right;
+    color: var(--fg);
+  }
+
+  /* Draft email */
+  .draft {
+    padding: 4px 12px 12px;
+  }
+  .draft p {
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--fg);
+  }
+  .draft .k {
+    width: 52px;
+    flex: none;
+    color: var(--fg-subtle);
+  }
+  .draft .body {
+    border-bottom: 0;
+    color: var(--fg-muted);
+    line-height: 1.5;
+  }
+  .draft .att {
+    border-bottom: 0;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .draft .att span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: var(--bg-sunken);
+    color: var(--fg-muted);
+    font-size: 11px;
+  }
+
+  .patch-close {
+    margin-top: clamp(2.5rem, 5vw, 4.5rem);
+    margin-left: auto;
+    max-width: 30rem;
+    line-height: 1.25;
+  }
+
+  /* Tablet */
+  @media (max-width: 1023px) {
+    .patch-stage {
+      height: 760px;
+    }
+    .frag-a {
+      left: 0;
+      top: 0;
+      width: min(380px, 62%);
+    }
+    .frag-b {
+      left: auto;
+      right: 0;
+      top: 170px;
+      width: min(450px, 66%);
+    }
+    .frag-c {
+      left: 2%;
+      top: 380px;
+      width: min(430px, 64%);
+    }
+    .frag-d {
+      left: auto;
+      right: 1%;
+      top: 540px;
+      width: min(380px, 60%);
+    }
+  }
+
+  /* Phone: overlapping stack, alternating sides */
+  @media (max-width: 639px) {
+    .patch-stage {
+      height: auto;
+      display: grid;
+      gap: 0;
+    }
+    .patch-thread {
+      display: none;
+    }
+    .frag {
+      position: relative;
+      inset: auto !important;
+      width: 92% !important;
+      font-size: 11.5px;
+    }
+    .frag + .frag {
+      margin-top: 14px;
+    }
+    .frag-b,
+    .frag-d {
+      justify-self: end;
+    }
+    .sheet {
+      grid-template-columns: 44px 1fr repeat(3, 54px);
+    }
+    .csv {
+      grid-template-columns: auto auto 1fr auto;
+    }
+    .csv span:nth-child(5n + 4) {
+      display: none;
+    }
+    .patch-close {
+      margin-left: 0;
+    }
+  }
+</style>

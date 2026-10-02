@@ -1,0 +1,150 @@
+---
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import PlatformDemo from '../hero/PlatformDemo.astro';
+import { Database01Icon } from '@hugeicons/core-free-icons';
+
+const lines = ['One workspace', 'for the numbers', 'behind every door.'];
+---
+
+<section class="hero relative z-[1] overflow-x-clip pt-28 md:pt-36" aria-labelledby="hero-title" data-hero>
+  <!-- Depth: two soft light fields, no grid -->
+  <div class="hero-bg" aria-hidden="true">
+    <span class="hero-glow hero-glow-a" data-hero-glow></span>
+    <span class="hero-glow hero-glow-b" data-hero-glow-b></span>
+  </div>
+
+  <div class="container-site relative">
+    <div class="hero-copy grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8" data-hero-copy>
+      <h1 id="hero-title" class="hero-title text-display font-[350] lg:col-span-7" aria-label={lines.join(' ')}>
+        {
+          lines.map((line, i) => (
+            <span class="hero-line" aria-hidden="true">
+              <span data-hero-line class:list={[i === 2 && 'text-subtle']}>
+                {line}
+              </span>
+            </span>
+          ))
+        }
+      </h1>
+
+      <div class="max-w-[26rem] lg:col-span-4 lg:col-start-9 lg:pb-2">
+        <p class="text-lead text-muted" data-hero-sub>
+          InnerView is the accounting and finance platform for multifamily real estate. Payables, financials, budgets
+          and capital for every property, built on your ResMan data.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <span data-hero-cta><Button href="/#demo" size="lg" arrow>Book a demo</Button></span>
+          <span data-hero-cta><Button href="#platform" size="lg" variant="quiet">See the platform</Button></span>
+        </div>
+        <p class="mt-6 flex items-center gap-2 text-caption text-subtle" data-hero-meta>
+          <Icon icon={Database01Icon} size={14} />
+          Reads your ResMan reports, ledger and master data
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Platform: real HTML, revealed by scroll -->
+  <div class="container-site relative mt-14 md:mt-20">
+    <div class="hero-stage" data-hero-stage>
+      <div class="hero-tilt" data-hero-tilt>
+        <div class="hero-enter" data-hero-enter>
+          <div class="hero-frame" data-hero-frame>
+            <PlatformDemo />
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="sr-only">
+      An animated preview of the InnerView workspace: a controller switches the portfolio overview from month to
+      quarter, opens Riverbend Flats to see its NOI, occupancy, open invoices and budget status, then closes it.
+      Sample data.
+    </p>
+    <p class="mt-5 text-caption text-subtle" data-hero-meta>InnerView workspace · sample data</p>
+  </div>
+</section>
+
+<style>
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hero-glow {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+  }
+  .hero-glow-a {
+    left: 50%;
+    top: 52%;
+    width: min(1400px, 140vw);
+    aspect-ratio: 2.2;
+    translate: -50% 0;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in oklab, var(--spark-to) 16%, transparent),
+      color-mix(in oklab, var(--spark-from) 7%, transparent) 55%,
+      transparent
+    );
+  }
+  .hero-glow-b {
+    right: -12%;
+    top: -18%;
+    width: 52rem;
+    aspect-ratio: 1;
+    background: radial-gradient(closest-side, color-mix(in oklab, var(--spark-from) 7%, transparent), transparent);
+  }
+  :global(:root[data-theme='dark']) .hero-glow-a {
+    background: radial-gradient(
+      closest-side,
+      color-mix(in oklab, var(--spark-to) 13%, transparent),
+      color-mix(in oklab, var(--spark-from) 8%, transparent) 50%,
+      transparent
+    );
+  }
+
+  .hero-title {
+    letter-spacing: -0.034em;
+  }
+  .hero-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+    margin-bottom: -0.06em;
+  }
+  .hero-line > span {
+    display: block;
+  }
+
+  .hero-stage {
+    perspective: 2200px;
+    perspective-origin: 50% 0%;
+  }
+  .hero-tilt,
+  .hero-enter {
+    transform-origin: 50% 0%;
+  }
+  .hero-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    background: var(--bg-raised);
+    box-shadow:
+      0 0 0 1px var(--rule),
+      0 1px 0 rgb(255 255 255 / 0.6) inset,
+      0 50px 100px -50px rgb(10 17 28 / 0.45),
+      0 24px 48px -32px rgb(10 17 28 / 0.25);
+  }
+  :global(:root[data-theme='dark']) .hero-frame {
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.08),
+      0 60px 120px -50px rgb(0 0 0 / 0.9);
+  }
+
+  /* Before JS: everything visible. JS adds .is-armed and drives the entrance. */
+  :global(html.motion-ready) [data-hero]:not(.is-played) :is([data-hero-line], [data-hero-sub], [data-hero-cta], [data-hero-meta], [data-hero-enter]) {
+    opacity: 0;
+  }
+</style>

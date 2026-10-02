@@ -1,0 +1,55 @@
+---
+import SplitHeading from '../ui/SplitHeading.astro';
+import { roles, propertyScopes } from '../../data/content';
+---
+
+<section class="border-t border-rule py-[var(--spacing-section)]" aria-labelledby="governance-title">
+  <div class="container-site grid gap-16 lg:grid-cols-12 lg:gap-8">
+    <div class="lg:col-span-5">
+      <div class="lg:sticky lg:top-28">
+        <SplitHeading
+          id="governance-title"
+          lines={['Who can see it,', 'who can change it,', 'and when they did.']}
+          class="text-h2 font-[350]"
+        />
+        <p class="mt-8 max-w-md text-body text-muted" data-scroll data-reveal>
+          Roles and capabilities decide what each person can do. Property scopes decide which buildings they see. The
+          audit log records every change made in the workspace: who, what and when.
+        </p>
+
+        <div class="mt-10" data-scroll data-reveal style="--reveal-delay:120">
+          <p class="text-label text-subtle">Property scope</p>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {
+              propertyScopes.map((s) => (
+                <li class="rounded-full px-3 py-1 text-caption text-muted shadow-[inset_0_0_0_1px_var(--rule)]">{s}</li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-6 lg:col-start-7">
+    <dl>
+      {
+        roles.map((r, i) => (
+          <div
+            class="grid gap-3 border-t border-rule py-8 last:border-b sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:gap-8 md:py-10"
+            data-scroll
+            data-reveal
+            style={`--reveal-delay:${i * 80}`}
+          >
+            <dt class="text-h3 font-[400] text-fg">{r.name}</dt>
+            <dd class="text-small text-muted sm:pt-1.5">{r.body}</dd>
+          </div>
+        ))
+      }
+    </dl>
+      <p class="mt-8 text-small text-subtle" data-scroll data-reveal>
+        Custom roles start from a system role. Effective access is role capabilities plus explicit allows, minus explicit
+        denies.
+      </p>
+    </div>
+  </div>
+</section>

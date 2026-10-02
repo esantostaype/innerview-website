@@ -1,0 +1,410 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/ibm-plex-sans/wdth.css';
+@import 'locomotive-scroll/dist/locomotive-scroll.css';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ------------------------------------------------------------------
+   Tokens
+   Identity source: InnerView isotype gradient (#0078c8 → #00c8ff,
+   dark #00b4ff → #00ffff) and the product's ink neutrals.
+   ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+
+  --bg: #f4f6f8;
+  --bg-raised: #ffffff;
+  --bg-sunken: #e9edf1;
+  --fg: #0a111c;
+  --fg-muted: #455162;
+  --fg-subtle: #5d6979;
+  --rule: #cfd6de;
+  --rule-strong: #a9b4c0;
+
+  --primary: #006fb9;
+  --primary-hover: #005d9c;
+  --primary-fg: #ffffff;
+  --spark-from: #0078c8;
+  --spark-to: #00c8ff;
+  --accent: #00a6dc;
+
+  /* Inverted band (used in both themes for rhythm) */
+  --ink: #070c14;
+  --ink-raised: #0d1520;
+  --ink-fg: #e9eef3;
+  --ink-muted: #95a3b3;
+  --ink-rule: #1d2836;
+
+  /* Readiness states — from the product's Ready / Needs review / Blocked */
+  --state-ready: #0f7a5c;
+  --state-review: #a15c00;
+  --state-blocked: #b42335;
+
+  --frame-shadow: 0 40px 80px -40px rgb(10 17 28 / 0.35), 0 12px 24px -12px rgb(10 17 28 / 0.18);
+  --selection: rgb(0 120 200 / 0.18);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #05090f;
+  --bg-raised: #0b121b;
+  --bg-sunken: #0f1823;
+  --fg: #e8edf2;
+  --fg-muted: #a3afbd;
+  --fg-subtle: #8693a3;
+  --rule: #1b2532;
+  --rule-strong: #2c3a4b;
+
+  --primary: #19b8ff;
+  --primary-hover: #5ccbff;
+  --primary-fg: #03121c;
+  --spark-from: #00b4ff;
+  --spark-to: #00ffff;
+  --accent: #3fd6ff;
+
+  --ink: #0d1620;
+  --ink-raised: #13202d;
+  --ink-fg: #e8edf2;
+  --ink-muted: #9aa8b8;
+  --ink-rule: #223042;
+
+  --state-ready: #3ccf9e;
+  --state-review: #f2a93b;
+  --state-blocked: #ff6b7d;
+
+  --frame-shadow: 0 0 0 1px rgb(255 255 255 / 0.07), 0 40px 90px -40px rgb(0 0 0 / 0.9);
+  --selection: rgb(25 184 255 / 0.28);
+}
+
+@theme {
+  --font-sans: 'IBM Plex Sans Variable', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-sunken: var(--bg-sunken);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-spark-from: var(--spark-from);
+  --color-spark-to: var(--spark-to);
+  --color-ink: var(--ink);
+  --color-ink-raised: var(--ink-raised);
+  --color-ink-fg: var(--ink-fg);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-rule: var(--ink-rule);
+  --color-ready: var(--state-ready);
+  --color-review: var(--state-review);
+  --color-blocked: var(--state-blocked);
+
+  /* Type scale — IBM Plex Sans only */
+  --text-display: clamp(2.6rem, 1.3rem + 4.6vw, 4.75rem);
+  --text-display--line-height: 0.96;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.25rem, 1.35rem + 3.4vw, 4rem);
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.032em;
+  --text-h2: clamp(1.85rem, 1.3rem + 2.2vw, 3.125rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.028em;
+  --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.5625rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.015em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.5;
+  --text-body: 1rem;
+  --text-body--line-height: 1.62;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.55;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.01em;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.01em;
+
+  --radius-sm: 4px;
+  --radius-btn: 6px;
+  --radius-md: 8px;
+  --radius-frame: 12px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --container-site: 90rem;
+  --container-prose: 40rem;
+
+  --spacing-gutter: clamp(1rem, 0.4rem + 3vw, 3.5rem);
+  --spacing-section: clamp(6rem, 3rem + 10vw, 11rem);
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'kern', 'liga', 'calt';
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: var(--bg);
+    min-height: 100dvh;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--selection);
+    color: inherit;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    font-weight: 400;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  input,
+  select,
+  textarea {
+    caret-color: var(--primary);
+  }
+}
+
+/* Scrollbars: hidden everywhere, drawn as an overlay (same as the InnerView app).
+   scripts/scrollbars.ts draws a thin thumb over the edge of whatever scrolls,
+   fading in on scroll or pointer movement, and draggable. */
+* {
+  scrollbar-width: none !important;
+}
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.iv-scroll-thumb {
+  position: fixed;
+  z-index: 70;
+  width: 5px;
+  border-radius: 9999px;
+  background-color: color-mix(in oklab, var(--fg) 24%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  cursor: grab;
+  transition:
+    opacity 240ms var(--ease-out-expo),
+    background-color 150ms var(--ease-out-expo);
+}
+.iv-scroll-thumb-x {
+  width: auto;
+  height: 5px;
+}
+.iv-scroll-thumb.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.iv-scroll-thumb:hover,
+.iv-scroll-thumb.is-dragging {
+  background-color: color-mix(in oklab, var(--fg) 40%, transparent);
+}
+.iv-scroll-thumb.is-dragging {
+  cursor: grabbing;
+}
+
+/* Theme switch: no transitions while swapping palettes */
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
+/* ------------------------------------------------------------------
+   Utilities
+   ------------------------------------------------------------------ */
+@utility container-site {
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+@utility numerals {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+@utility text-spark {
+  color: var(--primary);
+}
+
+@utility hairline {
+  border-color: var(--rule);
+}
+
+/* Product frame: one elevation system (shadow in light, ring in dark) */
+@utility product-frame {
+  border-radius: var(--radius-frame);
+  box-shadow: var(--frame-shadow);
+  overflow: hidden;
+  background: var(--bg-raised);
+}
+
+/* Theme-aware product screenshots */
+.theme-img-dark {
+  display: none;
+}
+:root[data-theme='dark'] .theme-img-light {
+  display: none;
+}
+:root[data-theme='dark'] .theme-img-dark {
+  display: block;
+}
+
+/* ------------------------------------------------------------------
+   Reveal system (driven by Locomotive's is-inview class)
+   Content is visible by default; motion only applies once JS marks
+   the document as ready, and never under reduced motion.
+   ------------------------------------------------------------------ */
+html.motion-ready [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 900ms var(--ease-out-expo),
+    transform 1100ms var(--ease-out-expo);
+  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+}
+
+html.motion-ready [data-reveal].is-inview {
+  opacity: 1;
+  transform: none;
+}
+
+html.motion-ready [data-reveal='fade'] {
+  transform: none;
+}
+
+html.motion-ready [data-reveal='rise-clip'] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1200ms var(--ease-out-expo);
+  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+}
+
+html.motion-ready [data-reveal='rise-clip'].is-inview {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Line-by-line headline reveal */
+.split-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.split-line > span {
+  display: block;
+}
+
+html.motion-ready [data-reveal-lines] .split-line > span {
+  transform: translate3d(0, 105%, 0);
+  transition: transform 1100ms var(--ease-out-expo);
+  transition-delay: calc(var(--line, 0) * 90ms + var(--reveal-delay, 0) * 1ms);
+}
+
+html.motion-ready [data-reveal-lines].is-inview .split-line > span {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.motion-ready [data-reveal],
+  html.motion-ready [data-reveal='rise-clip'],
+  html.motion-ready [data-reveal-lines] .split-line > span {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   View transitions
+   ------------------------------------------------------------------ */
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -12px, 0);
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+}
+
+::view-transition-old(root) {
+  animation: 320ms var(--ease-in-out-quart) both vt-fade-out;
+}
+::view-transition-new(root) {
+  animation: 620ms var(--ease-out-expo) both vt-fade-in;
+}
+::view-transition-group(site-header),
+::view-transition-group(brand-mark),
+::view-transition-group(demo-title) {
+  animation-duration: 700ms;
+  animation-timing-function: var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

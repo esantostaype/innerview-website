@@ -1,0 +1,1102 @@
+---
+/**
+ * InnerView workspace, rebuilt in HTML for the hero.
+ * Layout, navigation and labels follow the real product shell (apps/web: sidebar groups,
+ * Overview KPIs, Actual vs budget, Properties). All data is fictional sample data.
+ * It is decorative for assistive tech: a text description sits next to it in the hero.
+ */
+import Icon from '../ui/Icon.astro';
+import BrandMark from '../ui/BrandMark.astro';
+import {
+  Home01Icon,
+  Analytics01Icon,
+  ChartLineData01Icon,
+  Calculator01Icon,
+  PiggyBankIcon,
+  InboxIcon,
+  Database01Icon,
+  Settings01Icon,
+  Search01Icon,
+  Notification01Icon,
+  SparklesIcon,
+  SidebarLeftIcon,
+  ArrowDown01Icon,
+  Upload04Icon,
+  Cancel01Icon,
+  CheckmarkCircle02Icon,
+  Clock01Icon,
+  Invoice01Icon,
+  ArrowUpRight01Icon,
+  Alert02Icon,
+  Database01Icon as DataIcon,
+} from '@hugeicons/core-free-icons';
+
+type NavItem = { label: string; icon: typeof Home01Icon; active?: boolean; badge?: string };
+const nav: { group: string | null; items: NavItem[] }[] = [
+  { group: null, items: [{ label: 'Home', icon: Home01Icon, active: true }] },
+  { group: 'Analyze', items: [{ label: 'Financials', icon: Analytics01Icon }, { label: 'Performance', icon: ChartLineData01Icon }] },
+  { group: 'Plan', items: [{ label: 'Planning', icon: Calculator01Icon }, { label: 'Capital', icon: PiggyBankIcon }] },
+  { group: 'Operate', items: [{ label: 'AP Operations', icon: InboxIcon, badge: '23' }, { label: 'Data Hub', icon: Database01Icon }] },
+  { group: 'Administer', items: [{ label: 'Settings', icon: Settings01Icon }] },
+];
+
+const kpis = [
+  { key: 'noi', label: 'Net operating income', value: '$1.24M', delta: '+4.2%', tone: 'up', note: 'vs budget · Sep 2026', spark: 'M0 22 L10 19 L20 20 L30 15 L40 16 L50 11 L60 12 L70 8 L80 9 L90 5 L100 6' },
+  { key: 'occ', label: 'Occupancy', value: '94.6%', delta: '+0.8 pts', tone: 'up', note: 'Physical, all properties', spark: 'M0 18 L10 17 L20 18 L30 15 L40 14 L50 15 L60 12 L70 11 L80 12 L90 9 L100 8' },
+  { key: 'inv', label: 'Invoices processed', value: '1,284', delta: '96% auto-coded', tone: 'up', note: 'Email and uploads · Sep', spark: 'bars' },
+  { key: 'rev', label: 'Needs review', value: '23', delta: 'Oldest 4 days', tone: 'warn', note: 'Waiting for a reviewer', spark: 'M0 8 L10 12 L20 9 L30 14 L40 11 L50 15 L60 13 L70 17 L80 15 L90 19 L100 18' },
+];
+
+const bars = [62, 70, 66, 74, 71, 78, 76, 82, 80, 86, 84, 90];
+
+const properties = [
+  { id: 'willow', name: 'Willow Creek Village', city: 'Austin, TX', units: 312, occ: '96.2%', noi: '+5.1%', tone: 'up', open: 14 },
+  { id: 'magnolia', name: 'Magnolia Park Apartments', city: 'Charlotte, NC', units: 280, occ: '94.8%', noi: '+2.7%', tone: 'up', open: 11 },
+  { id: 'northgate', name: 'Northgate Commons', city: 'Columbus, OH', units: 416, occ: '95.1%', noi: '−1.4%', tone: 'down', open: 19 },
+  { id: 'riverbend', name: 'Riverbend Flats', city: 'Nashville, TN', units: 336, occ: '94.0%', noi: '+3.2%', tone: 'up', open: 16 },
+  { id: 'cedar', name: 'Cedar Grove Townhomes', city: 'Raleigh, NC', units: 184, occ: '91.3%', noi: '−0.6%', tone: 'down', open: 7 },
+];
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+---
+
+<div class="pd" data-pd aria-hidden="true">
+  <!-- Sidebar -->
+  <aside class="pd-side" data-pd-side>
+    <div class="pd-ws" data-pd-in="side">
+      <span class="pd-ws-mark"><BrandMark size={15} id="pd-mark" /></span>
+      <span class="pd-ws-name">Northline Residential</span>
+      <Icon icon={ArrowDown01Icon} size={13} class="pd-muted" />
+    </div>
+    <nav class="pd-nav">
+      {
+        nav.map((g) => (
+          <div class="pd-nav-group" data-pd-in="side">
+            {g.group && <p class="pd-nav-label">{g.group}</p>}
+            {g.items.map((item) => (
+              <p class:list={['pd-nav-item', item.active && 'is-active']}>
+                <Icon icon={item.icon} size={15} strokeWidth={1.6} />
+                <span class="pd-nav-text">{item.label}</span>
+                {item.badge && <span class="pd-nav-badge">{item.badge}</span>}
+              </p>
+            ))}
+          </div>
+        ))
+      }
+    </nav>
+    <div class="pd-user" data-pd-in="side">
+      <span class="pd-avatar">ML</span>
+      <span class="pd-user-meta">
+        <span>Maria Lopez</span>
+        <span class="pd-muted">Controller</span>
+      </span>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="pd-main">
+    <header class="pd-top" data-pd-in="top">
+      <Icon icon={SidebarLeftIcon} size={15} class="pd-muted" />
+      <span class="pd-crumb">Home</span>
+      <span class="pd-search">
+        <Icon icon={Search01Icon} size={13} />
+        <span>Search properties, accounts, vendors…</span>
+        <kbd>Ctrl K</kbd>
+      </span>
+      <span class="pd-top-icons">
+        <Icon icon={SparklesIcon} size={15} />
+        <span class="pd-bell"><Icon icon={Notification01Icon} size={15} /><i></i></span>
+        <span class="pd-avatar pd-avatar-sm">ML</span>
+      </span>
+    </header>
+
+    <div class="pd-content">
+      <div class="pd-head" data-pd-in="head">
+        <div>
+          <p class="pd-title">Overview</p>
+          <p class="pd-sub">Good morning, Maria. Here is how Northline Residential is doing.</p>
+        </div>
+        <div class="pd-actions">
+          <div class="pd-seg" data-pd-seg>
+            <span class="pd-seg-pill" data-pd-seg-pill></span>
+            <span class="pd-seg-btn is-on" data-pd-period="month">Month</span>
+            <span class="pd-seg-btn" data-pd-period="quarter">Quarter</span>
+            <span class="pd-seg-btn" data-pd-period="ytd">YTD</span>
+          </div>
+          <span class="pd-select">All properties <Icon icon={ArrowDown01Icon} size={12} /></span>
+          <span class="pd-btn"><Icon icon={Upload04Icon} size={13} /> Upload invoices</span>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="pd-kpis">
+        {
+          kpis.map((k) => (
+            <div class="pd-card pd-kpi" data-pd-in="card">
+              <p class="pd-kpi-label">{k.label}</p>
+              <p class="pd-kpi-row">
+                <span class="pd-kpi-value" data-pd-kpi={k.key}>{k.value}</span>
+                <span class:list={['pd-chip', k.tone === 'warn' ? 'is-warn' : 'is-up']} data-pd-kpi-delta={k.key}>
+                  {k.tone === 'warn' ? <Icon icon={Clock01Icon} size={11} /> : <Icon icon={ArrowUpRight01Icon} size={11} />}
+                  <span>{k.delta}</span>
+                </span>
+              </p>
+              <p class="pd-kpi-note" data-pd-kpi-note={k.key}>{k.note}</p>
+              {k.spark === 'bars' ? (
+                <svg class="pd-spark" viewBox="0 0 100 26" preserveAspectRatio="none">
+                  {bars.map((b, i) => (
+                    <rect x={i * 8.5} y={26 - b * 0.26} width="6" height={b * 0.26} rx="1" class="pd-bar" />
+                  ))}
+                </svg>
+              ) : (
+                <svg class="pd-spark" viewBox="0 0 100 26" preserveAspectRatio="none">
+                  <path d={k.spark} class:list={['pd-spark-line', k.tone === 'warn' && 'is-warn']} />
+                </svg>
+              )}
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Chart + properties -->
+      <div class="pd-grid">
+        <div class="pd-card pd-chart" data-pd-in="card">
+          <div class="pd-card-head">
+            <div>
+              <p class="pd-card-title">Actual vs budget</p>
+              <p class="pd-card-sub" data-pd-chart-sub>Net operating income by month · FY 2026</p>
+            </div>
+            <p class="pd-legend">
+              <span><i class="is-actual"></i>Actual</span>
+              <span><i class="is-budget"></i>Budget</span>
+              <span><i class="is-forecast"></i>Forecast</span>
+            </p>
+          </div>
+          <svg class="pd-plot" viewBox="0 0 560 210" preserveAspectRatio="none" data-pd-plot>
+            <defs>
+              <linearGradient id="pd-area" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="var(--primary)" stop-opacity="0.16"></stop>
+                <stop offset="1" stop-color="var(--primary)" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+            <g class="pd-gridlines">
+              <line x1="0" x2="560" y1="20" y2="20"></line>
+              <line x1="0" x2="560" y1="80" y2="80"></line>
+              <line x1="0" x2="560" y1="140" y2="140"></line>
+              <line x1="0" x2="560" y1="200" y2="200"></line>
+            </g>
+            <rect class="pd-forecast-band" x="420" y="0" width="140" height="210"></rect>
+            <path class="pd-area" data-pd-area d=""></path>
+            <path class="pd-budget" data-pd-budget d=""></path>
+            <path class="pd-actual" data-pd-actual d=""></path>
+            <path class="pd-forecast" data-pd-forecast d=""></path>
+            <circle class="pd-dot" data-pd-dot r="4" cx="0" cy="0"></circle>
+          </svg>
+          <p class="pd-axis">{months.map((m) => <span>{m}</span>)}</p>
+        </div>
+
+        <div class="pd-card pd-props" data-pd-in="card">
+          <div class="pd-card-head">
+            <div>
+              <p class="pd-card-title">Properties</p>
+              <p class="pd-card-sub">NOI against budget, occupancy and open invoices</p>
+            </div>
+          </div>
+          <div class="pd-table">
+            <p class="pd-tr pd-th"><span>Property</span><span>Occ.</span><span>NOI vs bgt</span><span>Open</span></p>
+            {
+              properties.map((p) => (
+                <p class="pd-tr" data-pd-row={p.id} data-pd-in="row">
+                  <span class="pd-prop">
+                    <span class="pd-prop-name">{p.name}</span>
+                    <span class="pd-muted">{p.city} · {p.units} units</span>
+                  </span>
+                  <span class="pd-num">{p.occ}</span>
+                  <span class:list={['pd-num', p.tone === 'down' ? 'pd-down' : 'pd-up']}>{p.noi}</span>
+                  <span class="pd-num">{p.open}</span>
+                </p>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- AP pipeline + needs attention -->
+      <div class="pd-grid">
+        <div class="pd-card pd-pipe" data-pd-in="card">
+          <div class="pd-card-head">
+            <div>
+              <p class="pd-card-title">AP pipeline</p>
+              <p class="pd-card-sub">Invoices by stage · Sep 2026</p>
+            </div>
+          </div>
+          <div class="pd-pipe-rows">
+            {
+              [
+                ['Received', '1,337', 100, ''],
+                ['Auto-coded', '1,284', 96, '96.0%'],
+                ['Reviewed', '1,261', 94.3, '94.3%'],
+                ['Ready to post', '1,248', 93.3, '93.3%'],
+              ].map(([label, n, pct, rate]) => (
+                <p class="pd-pipe-row">
+                  <span>{label}</span>
+                  <span class="pd-pipe-track"><i style={`--w:${pct}%`} /></span>
+                  <span class="pd-num">{n}</span>
+                  <span class="pd-num pd-muted">{rate}</span>
+                </p>
+              ))
+            }
+          </div>
+        </div>
+        <div class="pd-card pd-attn" data-pd-in="card">
+          <div class="pd-card-head">
+            <div>
+              <p class="pd-card-title">Needs attention</p>
+              <p class="pd-card-sub">3 items across the portfolio</p>
+            </div>
+          </div>
+          <div class="pd-attn-list">
+            <p><span class="pd-attn-ic pd-warn"><Icon icon={Clock01Icon} size={13} /></span><span><b>Riverbend Flats budget awaiting approval</b><span class="pd-muted">FY 2027 · submitted by Sarah Nguyen</span></span></p>
+            <p><span class="pd-attn-ic pd-down"><Icon icon={Alert02Icon} size={13} /></span><span><b>4 invoices blocked · GL mismatch</b><span class="pd-muted">Northgate Commons · batch Sep-W4</span></span></p>
+            <p><span class="pd-attn-ic pd-up"><Icon icon={DataIcon} size={13} /></span><span><b>September general ledger imported</b><span class="pd-muted">Data Hub · 5 properties · 2h ago</span></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Property drawer (opens during the loop) -->
+    <div class="pd-drawer" data-pd-drawer>
+      <div class="pd-drawer-head">
+        <div>
+          <p class="pd-drawer-title">Riverbend Flats</p>
+          <p class="pd-muted">Nashville, TN · 336 units · Managed since 2019</p>
+        </div>
+        <span class="pd-icon-btn" data-pd-close><Icon icon={Cancel01Icon} size={14} /></span>
+      </div>
+      <div class="pd-tabs" data-pd-d><span class="is-on">Summary</span><span>Budget</span><span>Payables</span><span>Ledger</span></div>
+
+      <div class="pd-drawer-stats" data-pd-d>
+        <p><span class="pd-muted">NOI · Sep</span><strong>$214.6K</strong><span class="pd-up">+3.2% vs $208.0K</span></p>
+        <p><span class="pd-muted">Occupancy</span><strong>94.0%</strong><span class="pd-muted">316 of 336 units</span></p>
+        <p><span class="pd-muted">Open invoices</span><strong>16</strong><span class="pd-muted">$48,920.17</span></p>
+      </div>
+
+      <div class="pd-mini" data-pd-d>
+        <p class="pd-mini-title">NOI, last 6 months</p>
+        <div class="pd-mini-bars">
+          {
+            [
+              ['Apr', 72],
+              ['May', 78],
+              ['Jun', 74],
+              ['Jul', 83],
+              ['Aug', 80],
+              ['Sep', 88],
+            ].map(([m, h]) => (
+              <span class="pd-mini-bar">
+                <i style={`--h:${h}%`} />
+                <em>{m}</em>
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="pd-status" data-pd-d>
+        <span class="pd-status-icon"><Icon icon={Clock01Icon} size={13} /></span>
+        <span>
+          <strong>FY 2027 budget · In review</strong>
+          <span class="pd-muted">Submitted by Sarah Nguyen · Sep 29</span>
+        </span>
+      </div>
+
+      <div class="pd-activity" data-pd-d>
+        <p class="pd-mini-title">Recent activity</p>
+        <p><Icon icon={CheckmarkCircle02Icon} size={13} class="pd-up" /><span>Batch <b>Sep-W4</b> · 42 invoices ready to post</span><em>2h</em></p>
+        <p><Icon icon={Invoice01Icon} size={13} class="pd-muted" /><span>Cumberland Power &amp; Light · $18,240.55 coded to 6510</span><em>5h</em></p>
+        <p><Icon icon={Clock01Icon} size={13} class="pd-warn" /><span>3 invoices waiting for review</span><em>1d</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulated cursor -->
+  <div class="pd-cursor" data-pd-cursor>
+    <svg width="22" height="22" viewBox="0 0 24 24">
+      <path d="M5 3l14 7.5-6.2 1.6L10 18.5 5 3z" fill="#0a111c" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"></path>
+    </svg>
+    <span class="pd-click" data-pd-click></span>
+  </div>
+</div>
+
+<style>
+  .pd {
+    --pd-w: 1240px;
+    --pd-h: 760px;
+    --pd-bg: var(--bg-raised);
+    --pd-side: color-mix(in oklab, var(--bg) 70%, var(--bg-raised));
+    --pd-line: var(--rule);
+    --pd-fg: var(--fg);
+    --pd-muted: var(--fg-subtle);
+    --pd-up: var(--state-ready);
+    --pd-down: var(--state-blocked);
+    --pd-warn: var(--state-review);
+    position: relative;
+    width: var(--pd-w);
+    height: var(--pd-h);
+    display: grid;
+    grid-template-columns: 216px 1fr;
+    background: var(--pd-bg);
+    color: var(--pd-fg);
+    font-size: 12.5px;
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+    overflow: hidden;
+    user-select: none;
+  }
+  .pd p {
+    margin: 0;
+    text-wrap: nowrap;
+  }
+  .pd-muted {
+    color: var(--pd-muted);
+  }
+  .pd-up {
+    color: var(--pd-up);
+  }
+  .pd-down {
+    color: var(--pd-down);
+  }
+  .pd-warn {
+    color: var(--pd-warn);
+  }
+
+  /* Sidebar */
+  .pd-side {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px 10px;
+    background: var(--pd-side);
+    border-right: 1px solid var(--pd-line);
+  }
+  .pd-ws {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 7px;
+    box-shadow: inset 0 0 0 1px var(--pd-line);
+    background: var(--pd-bg);
+    font-weight: 500;
+  }
+  .pd-ws-mark {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    background: var(--bg-sunken);
+  }
+  .pd-ws-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pd-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .pd-nav-label {
+    padding: 0 8px 4px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--pd-muted);
+  }
+  .pd-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    color: color-mix(in oklab, var(--pd-fg) 78%, var(--pd-muted));
+  }
+  .pd-nav-item.is-active {
+    background: var(--bg-sunken);
+    color: var(--pd-fg);
+    font-weight: 500;
+  }
+  .pd-nav-badge {
+    margin-left: auto;
+    padding: 0 6px;
+    border-radius: 99px;
+    font-size: 10.5px;
+    background: color-mix(in oklab, var(--pd-warn) 16%, transparent);
+    color: var(--pd-warn);
+  }
+  .pd-user {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px;
+    border-top: 1px solid var(--pd-line);
+  }
+  .pd-user-meta {
+    display: grid;
+    line-height: 1.3;
+  }
+  .pd-avatar {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 99px;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #2f6fb0, #4fb3d9);
+  }
+  .pd-avatar-sm {
+    width: 22px;
+    height: 22px;
+    font-size: 9.5px;
+  }
+
+  /* Main */
+  .pd-main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .pd-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 46px;
+    padding: 0 18px;
+    border-bottom: 1px solid var(--pd-line);
+  }
+  .pd-crumb {
+    font-weight: 500;
+  }
+  .pd-search {
+    margin-left: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 320px;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px var(--pd-line);
+    color: var(--pd-muted);
+  }
+  .pd-search kbd {
+    margin-left: auto;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font: inherit;
+    font-size: 10px;
+    background: var(--bg-sunken);
+  }
+  .pd-top-icons {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--pd-muted);
+  }
+  .pd-bell {
+    position: relative;
+    display: grid;
+  }
+  .pd-bell i {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 6px;
+    height: 6px;
+    border-radius: 99px;
+    background: var(--primary);
+    box-shadow: 0 0 0 2px var(--pd-bg);
+  }
+
+  .pd-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 20px;
+  }
+  .pd-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .pd-title {
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .pd-sub {
+    margin-top: 2px;
+    color: var(--pd-muted);
+  }
+  .pd-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pd-seg {
+    position: relative;
+    display: flex;
+    padding: 2px;
+    border-radius: 7px;
+    background: var(--bg-sunken);
+  }
+  .pd-seg-pill {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    height: calc(100% - 4px);
+    width: 54px;
+    border-radius: 5px;
+    background: var(--pd-bg);
+    box-shadow: 0 1px 2px rgb(10 17 28 / 0.12), 0 0 0 1px var(--pd-line);
+  }
+  .pd-seg-btn {
+    position: relative;
+    width: 54px;
+    padding: 4px 0;
+    text-align: center;
+    color: var(--pd-muted);
+    transition: color 200ms;
+  }
+  .pd-seg-btn.is-on {
+    color: var(--pd-fg);
+    font-weight: 500;
+  }
+  .pd-select,
+  .pd-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px var(--pd-line);
+  }
+  .pd-btn {
+    background: var(--primary);
+    color: var(--primary-fg);
+    box-shadow: none;
+    font-weight: 500;
+  }
+
+  /* Cards */
+  .pd-card {
+    border-radius: 9px;
+    background: var(--pd-bg);
+    box-shadow: inset 0 0 0 1px var(--pd-line);
+  }
+  .pd-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .pd-kpi {
+    position: relative;
+    padding: 12px 14px 10px;
+    overflow: hidden;
+  }
+  .pd-kpi-label {
+    font-size: 11px;
+    color: var(--pd-muted);
+  }
+  .pd-kpi-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .pd-kpi-value {
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+  .pd-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 10.5px;
+    font-weight: 500;
+  }
+  .pd-chip.is-up {
+    color: var(--pd-up);
+    background: color-mix(in oklab, var(--pd-up) 13%, transparent);
+  }
+  .pd-chip.is-warn {
+    color: var(--pd-warn);
+    background: color-mix(in oklab, var(--pd-warn) 14%, transparent);
+  }
+  .pd-kpi-note {
+    margin-top: 2px;
+    font-size: 11px;
+    color: var(--pd-muted);
+  }
+  .pd-spark {
+    display: block;
+    width: 100%;
+    height: 26px;
+    margin-top: 8px;
+    overflow: visible;
+  }
+  .pd-spark-line {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 1.6;
+    vector-effect: non-scaling-stroke;
+  }
+  .pd-spark-line.is-warn {
+    stroke: var(--pd-warn);
+  }
+  .pd-bar {
+    fill: color-mix(in oklab, var(--primary) 70%, transparent);
+  }
+
+  .pd-grid {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 12px;
+    min-height: 0;
+  }
+  .pd-card-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px 0;
+  }
+  .pd-card-title {
+    font-weight: 500;
+  }
+  .pd-card-sub {
+    font-size: 11px;
+    color: var(--pd-muted);
+  }
+  .pd-legend {
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--pd-muted);
+  }
+  .pd-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .pd-legend i {
+    width: 10px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--primary);
+  }
+  .pd-legend i.is-budget {
+    background: repeating-linear-gradient(90deg, var(--pd-muted) 0 3px, transparent 3px 5px);
+  }
+  .pd-legend i.is-forecast {
+    background: color-mix(in oklab, var(--accent) 80%, transparent);
+  }
+  .pd-chart {
+    display: flex;
+    flex-direction: column;
+  }
+  .pd-plot {
+    width: calc(100% - 28px);
+    height: 196px;
+    margin: 14px 14px 0;
+    overflow: visible;
+  }
+  .pd-gridlines line {
+    stroke: var(--pd-line);
+    stroke-dasharray: 2 4;
+  }
+  .pd-forecast-band {
+    fill: color-mix(in oklab, var(--accent) 6%, transparent);
+  }
+  .pd-area {
+    fill: url(#pd-area);
+  }
+  .pd-actual,
+  .pd-forecast,
+  .pd-budget {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .pd-actual {
+    stroke: var(--primary);
+    stroke-width: 2;
+  }
+  .pd-forecast {
+    stroke: var(--accent);
+    stroke-width: 2;
+    stroke-dasharray: 1 5;
+  }
+  .pd-budget {
+    stroke: var(--pd-muted);
+    stroke-width: 1.4;
+    stroke-dasharray: 4 4;
+  }
+  .pd-dot {
+    fill: var(--pd-bg);
+    stroke: var(--primary);
+    stroke-width: 2;
+  }
+  .pd-axis {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 14px 12px;
+    font-size: 10.5px;
+    color: var(--pd-muted);
+  }
+
+  /* Table */
+  .pd-table {
+    padding: 8px 6px 6px;
+  }
+  .pd-tr {
+    display: grid;
+    grid-template-columns: 1fr 52px 70px 36px;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 8px;
+    border-radius: 6px;
+    transition: background-color 220ms;
+  }
+  .pd-tr.is-hover {
+    background: var(--bg-sunken);
+  }
+  .pd-tr.is-selected {
+    background: color-mix(in oklab, var(--primary) 9%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 30%, transparent);
+  }
+  .pd-th {
+    font-size: 10.5px;
+    color: var(--pd-muted);
+    padding-block: 4px;
+  }
+  .pd-prop {
+    display: grid;
+    min-width: 0;
+    line-height: 1.3;
+  }
+  .pd-prop-name {
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pd-prop .pd-muted {
+    font-size: 10.5px;
+  }
+  .pd-num {
+    text-align: right;
+  }
+
+
+  /* Pipeline + attention */
+  .pd-pipe-rows {
+    display: grid;
+    gap: 9px;
+    padding: 12px 14px 14px;
+  }
+  .pd-pipe-row {
+    display: grid;
+    grid-template-columns: 92px 1fr 48px 44px;
+    align-items: center;
+    gap: 10px;
+  }
+  .pd-pipe-track {
+    height: 6px;
+    border-radius: 99px;
+    background: var(--bg-sunken);
+    overflow: hidden;
+  }
+  .pd-pipe-track i {
+    display: block;
+    height: 100%;
+    width: var(--w);
+    border-radius: inherit;
+    background: var(--primary);
+  }
+  .pd-attn-list {
+    padding: 6px 14px 10px;
+  }
+  .pd-attn-list p {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    border-top: 1px solid var(--pd-line);
+  }
+  .pd-attn-list p:first-child {
+    border-top: 0;
+  }
+  .pd-attn-list p > span:last-child {
+    display: grid;
+    min-width: 0;
+  }
+  .pd-attn-list b {
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pd-attn-list .pd-muted {
+    font-size: 11px;
+  }
+  .pd-attn-ic {
+    padding-top: 1px;
+  }
+
+  /* Drawer */
+  .pd-drawer {
+    position: absolute;
+    top: 46px;
+    right: 0;
+    bottom: 0;
+    width: 384px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    background: var(--pd-bg);
+    border-left: 1px solid var(--pd-line);
+    box-shadow: -24px 0 48px -24px rgb(10 17 28 / 0.28);
+    transform: translateX(105%);
+    will-change: transform;
+  }
+  .pd-drawer-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .pd-drawer-title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .pd-icon-btn {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px var(--pd-line);
+    color: var(--pd-muted);
+    transition: background-color 200ms;
+  }
+  .pd-icon-btn.is-hover {
+    background: var(--bg-sunken);
+    color: var(--pd-fg);
+  }
+  .pd-tabs {
+    display: flex;
+    gap: 16px;
+    border-bottom: 1px solid var(--pd-line);
+    color: var(--pd-muted);
+  }
+  .pd-tabs span {
+    padding-bottom: 8px;
+  }
+  .pd-tabs .is-on {
+    color: var(--pd-fg);
+    font-weight: 500;
+    box-shadow: inset 0 -2px 0 var(--primary);
+  }
+  .pd-drawer-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .pd-drawer-stats p {
+    display: grid;
+    gap: 2px;
+    font-size: 11px;
+  }
+  .pd-drawer-stats strong {
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .pd-mini-title {
+    font-size: 11px;
+    color: var(--pd-muted);
+    margin-bottom: 8px !important;
+  }
+  .pd-mini-bars {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    height: 84px;
+    align-items: end;
+  }
+  .pd-mini-bar {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    height: 100%;
+    gap: 4px;
+  }
+  .pd-mini-bar i {
+    align-self: end;
+    height: var(--h);
+    border-radius: 3px;
+    background: color-mix(in oklab, var(--primary) 22%, transparent);
+    transform-origin: bottom;
+  }
+  .pd-mini-bar:last-child i {
+    background: var(--primary);
+  }
+  .pd-mini-bar em {
+    font-style: normal;
+    font-size: 10px;
+    text-align: center;
+    color: var(--pd-muted);
+  }
+  .pd-status {
+    display: flex;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: color-mix(in oklab, var(--pd-warn) 8%, transparent);
+  }
+  .pd-status > span:last-child {
+    display: grid;
+  }
+  .pd-status strong {
+    font-weight: 500;
+  }
+  .pd-status-icon {
+    color: var(--pd-warn);
+    padding-top: 1px;
+  }
+  .pd-activity p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 0;
+    border-top: 1px solid var(--pd-line);
+  }
+  .pd-activity p span {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pd-activity em {
+    font-style: normal;
+    font-size: 10.5px;
+    color: var(--pd-muted);
+  }
+  .pd-activity b {
+    font-weight: 500;
+  }
+
+  /* Cursor */
+  .pd-cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    width: 22px;
+    height: 22px;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+    filter: drop-shadow(0 2px 3px rgb(10 17 28 / 0.3));
+  }
+  .pd-click {
+    position: absolute;
+    top: 1px;
+    left: 3px;
+    width: 26px;
+    height: 26px;
+    margin: -13px 0 0 -13px;
+    border-radius: 99px;
+    background: color-mix(in oklab, var(--primary) 35%, transparent);
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  /* Compact layout (narrow containers): collapsed rail, stacked content */
+  .pd[data-compact] {
+    --pd-w: 560px;
+    --pd-h: 900px;
+    grid-template-columns: 52px 1fr;
+    font-size: 13px;
+  }
+  .pd[data-compact] .pd-content {
+    padding: 14px;
+    gap: 12px;
+  }
+  .pd[data-compact] .pd-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .pd[data-compact] .pd-kpi-note,
+  .pd[data-compact] .pd-spark,
+  .pd[data-compact] .pd-legend,
+  .pd[data-compact] .pd-pipe {
+    display: none;
+  }
+  .pd[data-compact] .pd-tr {
+    grid-template-columns: 1fr 50px 64px;
+  }
+  .pd[data-compact] .pd-tr > :nth-child(4) {
+    display: none;
+  }
+  .pd[data-compact] .pd-drawer-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pd[data-compact] .pd-ws-name,
+  .pd[data-compact] .pd-ws :global(svg:last-child),
+  .pd[data-compact] .pd-nav-label,
+  .pd[data-compact] .pd-nav-text,
+  .pd[data-compact] .pd-nav-badge,
+  .pd[data-compact] .pd-user-meta,
+  .pd[data-compact] .pd-search,
+  .pd[data-compact] .pd-select,
+  .pd[data-compact] .pd-sub {
+    display: none;
+  }
+  .pd[data-compact] .pd-nav-item {
+    justify-content: center;
+  }
+  .pd[data-compact] .pd-ws {
+    justify-content: center;
+    box-shadow: none;
+    background: none;
+  }
+  .pd[data-compact] .pd-top-icons {
+    margin-left: auto;
+  }
+  .pd[data-compact] .pd-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pd[data-compact] .pd-grid {
+    grid-template-columns: 1fr;
+  }
+  .pd[data-compact] .pd-props {
+    order: -1;
+  }
+  .pd[data-compact] .pd-plot {
+    height: 170px;
+  }
+  .pd[data-compact] .pd-drawer {
+    width: 100%;
+  }
+</style>

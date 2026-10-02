@@ -1,0 +1,77 @@
+---
+import Logo from './ui/Logo.astro';
+import ThemeSwitcher from './ui/ThemeSwitcher.astro';
+import Button from './ui/Button.astro';
+import Icon from './ui/Icon.astro';
+import { Menu01Icon, Cancel01Icon } from '@hugeicons/core-free-icons';
+import { nav } from '../data/content';
+---
+
+<header
+  data-site-header
+  transition:name="site-header"
+  class="group/header fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500 data-scrolled:bg-bg/80 data-scrolled:shadow-[0_1px_0_var(--rule)] data-scrolled:backdrop-blur-xl"
+>
+  <div class="container-site flex h-16 items-center justify-between gap-6 md:h-18">
+    <a href="/" class="relative z-10 -m-2 p-2 text-fg" aria-label="InnerView home" transition:name="brand-mark">
+      <Logo height={20} id="header-logo" />
+    </a>
+
+    <nav aria-label="Primary" class="hidden lg:block">
+      <ul class="flex items-center gap-8">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="text-small text-muted transition-colors duration-200 hover:text-fg"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <ThemeSwitcher class="max-sm:hidden" />
+      <span class="max-sm:hidden"><Button href="/#demo">Book a demo</Button></span>
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="group/menu relative z-10 grid size-10 place-items-center rounded-full text-fg lg:hidden"
+      >
+        <span class="sr-only">Menu</span>
+        <Icon icon={Menu01Icon} size={22} class="col-start-1 row-start-1 group-aria-expanded/menu:hidden" />
+        <Icon icon={Cancel01Icon} size={22} class="col-start-1 row-start-1 hidden group-aria-expanded/menu:block" />
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    data-open="false"
+    class="fixed inset-0 -z-0 flex flex-col bg-bg px-[var(--spacing-gutter)] pt-24 pb-8 transition-[opacity,visibility] duration-500 ease-out-expo data-[open=false]:invisible data-[open=false]:opacity-0 lg:hidden"
+  >
+    <nav aria-label="Mobile">
+      <ul class="border-t border-rule">
+        {
+          nav.map((item) => (
+            <li class="border-b border-rule">
+              <a href={item.href} class="block py-5 text-h3 text-fg">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="mt-auto flex items-center justify-between gap-4">
+      <ThemeSwitcher />
+      <Button href="/#demo" size="lg" arrow>Book a demo</Button>
+    </div>
+  </div>
+</header>

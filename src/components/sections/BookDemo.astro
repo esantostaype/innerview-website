@@ -1,0 +1,96 @@
+---
+import { Image } from 'astro:assets';
+import facade from '../../assets/photos/facade-sky.jpg';
+import BrandMark from '../ui/BrandMark.astro';
+import SplitHeading from '../ui/SplitHeading.astro';
+import Icon from '../ui/Icon.astro';
+import { ArrowRight02Icon } from '@hugeicons/core-free-icons';
+import { site } from '../../data/content';
+
+const field =
+  'mt-2 block h-12 w-full rounded-[var(--radius-md)] border border-ink-rule bg-ink-raised px-4 text-body text-ink-fg placeholder:text-ink-muted transition-[border-color,box-shadow] duration-200 hover:border-ink-muted focus:border-accent focus:shadow-[0_0_0_3px_color-mix(in_oklab,var(--accent)_25%,transparent)] focus:outline-none';
+---
+
+<section id="demo" class="relative isolate scroll-mt-0 overflow-hidden bg-ink text-ink-fg" aria-labelledby="demo-title">
+  <div class="absolute inset-y-0 right-0 -z-10 w-full md:w-[55%]" aria-hidden="true">
+    <div class="h-full" data-scroll data-scroll-speed="-0.08">
+      <Image
+        src={facade}
+        alt=""
+        quality={62}
+        widths={[800, 1400, 2000]}
+        sizes="(min-width: 768px) 55vw, 100vw"
+        class="h-[115%] w-full object-cover opacity-30 md:opacity-45"
+      />
+    </div>
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,var(--ink)_0%,color-mix(in_oklab,var(--ink)_70%,transparent)_45%,color-mix(in_oklab,var(--ink)_30%,transparent)_100%)]"></div>
+  </div>
+
+  <div class="container-site grid gap-16 py-[var(--spacing-section)] lg:grid-cols-12 lg:gap-8">
+    <div class="lg:col-span-6">
+      <div data-scroll data-reveal>
+        <BrandMark size={44} id="demo-spark" />
+      </div>
+      <SplitHeading
+        id="demo-title"
+        lines={['Close the month', 'without retyping it.']}
+        class="mt-10 text-h1 font-[350] text-ink-fg"
+      />
+      <p class="mt-8 max-w-md text-lead text-ink-muted" data-scroll data-reveal style="--reveal-delay:200">
+        See your own vendor invoices become a ResMan-ready file. Book a demo with the team that built InnerView.
+      </p>
+    </div>
+
+    <form
+      class="self-end lg:col-span-5 lg:col-start-8"
+      method="post"
+      action={site.demoFormAction || undefined}
+      data-demo-form
+      data-scroll
+      data-reveal
+      style="--reveal-delay:150"
+    >
+      <div class="grid gap-5 sm:grid-cols-2">
+        <label class="block text-label text-ink-muted">
+          Full name
+          <input class={field} type="text" name="name" autocomplete="name" required />
+        </label>
+        <label class="block text-label text-ink-muted">
+          Work email
+          <input class={field} type="email" name="email" autocomplete="email" required />
+        </label>
+        <label class="block text-label text-ink-muted sm:col-span-2">
+          Company
+          <input class={field} type="text" name="company" autocomplete="organization" required />
+        </label>
+        <label class="block text-label text-ink-muted">
+          Accounting system
+          <select class={field} name="accounting_system" required>
+            <option value="" disabled selected>Select</option>
+            <option>ResMan</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label class="block text-label text-ink-muted">
+          Units managed <span class="text-ink-muted/70">(optional)</span>
+          <input class={field} type="number" name="units" min="1" inputmode="numeric" />
+        </label>
+      </div>
+
+      <button
+        type="submit"
+        class="group/btn mt-8 inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full bg-ink-fg px-7 font-medium text-ink transition-[background-color,transform] duration-300 ease-out-expo hover:bg-white active:scale-[0.98] disabled:opacity-60 sm:w-auto"
+      >
+        Book a demo
+        <Icon icon={ArrowRight02Icon} size={18} class="transition-transform duration-500 ease-out-expo group-hover/btn:translate-x-0.5" />
+      </button>
+      <p
+        class="mt-5 min-h-[1.5em] text-small data-[tone=error]:text-[#ff9aa6] data-[tone=ok]:text-[#7fe3bf]"
+        role="status"
+        aria-live="polite"
+        data-form-status
+      >
+      </p>
+    </form>
+  </div>
+</section>

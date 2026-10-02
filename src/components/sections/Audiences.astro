@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets';
+import brick from '../../assets/photos/brick-apartments.jpg';
+import SplitHeading from '../ui/SplitHeading.astro';
+import { audiences } from '../../data/content';
+---
+
+<section class="py-[var(--spacing-section)]" aria-labelledby="audiences-title">
+  <div class="container-site grid gap-14 lg:grid-cols-12 lg:gap-8">
+    <div class="lg:col-span-5">
+      <SplitHeading
+        id="audiences-title"
+        lines={['One close,', 'four people.']}
+        class="text-h1 font-[350]"
+      />
+      <figure class="mt-12 hidden overflow-hidden rounded-[var(--radius-frame)] lg:block" data-scroll data-reveal="rise-clip">
+        <div data-scroll data-scroll-speed="-0.05" class="scale-110">
+          <Image
+            src={brick}
+            alt="A brick multifamily building with balconies in afternoon light."
+            quality={62}
+            widths={[600, 900, 1200]}
+            sizes="35vw"
+            class="aspect-[4/5] w-full object-cover"
+          />
+        </div>
+      </figure>
+    </div>
+
+    <ul class="lg:col-span-6 lg:col-start-7 lg:pt-4">
+      {
+        audiences.map((a, i) => (
+          <li
+            class="border-t border-rule py-10 last:border-b md:py-14"
+            data-scroll
+            data-reveal
+            style={`--reveal-delay:${i * 60}`}
+          >
+            <p class="text-label text-subtle">{a.role}</p>
+            <p class="mt-4 text-h2 font-[350] text-fg">{a.line}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

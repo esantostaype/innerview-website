@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import SplitHeading from '../ui/SplitHeading.astro';
+import vendorsLight from '../../assets/product/vendors-canonical.light.png';
+import vendorsDark from '../../assets/product/vendors-canonical.dark.png';
+import { canonicalDatasets } from '../../data/content';
+
+const lifecycle = [
+  { name: 'Source package', body: 'A ResMan export or report, uploaded and profiled.' },
+  { name: 'Mapping & validation', body: 'Columns mapped, rows checked, warnings surfaced.' },
+  { name: 'Immutable snapshot', body: 'Published once, fingerprinted, never edited.' },
+  { name: 'Active context release', body: 'One snapshot per dataset, activated with a reason.' },
+];
+---
+
+<section id="master-data" class="scroll-mt-20 overflow-clip py-[var(--spacing-section)]" aria-labelledby="master-title">
+  <div class="container-site">
+    <div class="grid gap-8 lg:grid-cols-12">
+      <SplitHeading
+        id="master-title"
+        lines={['Coding is only as good', 'as the data behind it.']}
+        class="text-h1 font-[350] lg:col-span-9"
+      />
+    </div>
+
+    <div class="mt-16 grid gap-12 md:mt-24 lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-4">
+        <p class="max-w-md text-body text-muted" data-scroll data-reveal>
+          InnerView codes invoices against governed master data from the Data Hub: vendors, properties and units, the chart
+          of accounts and invoice history. Source aliases converge into canonical vendor identities, and anything
+          that doesn’t converge cleanly waits for an operator to confirm it.
+        </p>
+
+        <ul class="mt-10 flex flex-wrap gap-2" aria-label="Canonical datasets" data-scroll data-reveal style="--reveal-delay:120">
+          {
+            canonicalDatasets.map((d) => (
+              <li class="rounded-full px-3 py-1 text-caption text-muted shadow-[inset_0_0_0_1px_var(--rule)]">{d}</li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <figure class="relative lg:col-span-8 lg:col-start-5">
+        <div class="w-[135%] md:w-[118%]" data-scroll data-scroll-speed="0.05">
+          <div class="product-frame" data-scroll data-reveal="rise-clip">
+            <Image
+              src={vendorsLight}
+              alt="InnerView Vendors directory: six source aliases converge into canonical vendor identities, with canonical records, the ResMan Vendors Export source package, mapping coverage, validation warnings and the published version."
+              widths={[800, 1200, 1800, 2440]}
+              sizes="(min-width: 1024px) 1100px, 135vw"
+              class="theme-img-light block w-full"
+            />
+            <Image
+              src={vendorsDark}
+              alt=""
+              widths={[800, 1200, 1800, 2440]}
+              sizes="(min-width: 1024px) 1100px, 135vw"
+              class="theme-img-dark w-full"
+            />
+          </div>
+        </div>
+        <figcaption class="mt-4 text-caption text-subtle">Vendors in the Data Hub · demo workspace</figcaption>
+      </figure>
+    </div>
+
+    <!-- Lifecycle: an open timeline, not cards -->
+    <ol class="relative mt-24 grid gap-10 md:mt-32 md:grid-cols-4 md:gap-8" aria-label="How master data becomes active context">
+      <span class="absolute top-[0.4375rem] right-0 left-0 hidden h-px bg-rule md:block" aria-hidden="true"></span>
+      {
+        lifecycle.map((l, i) => (
+          <li class="relative pl-7 md:pl-0" data-scroll data-reveal style={`--reveal-delay:${i * 110}`}>
+            <span
+              class:list={[
+                'absolute top-1 left-0 size-3.5 rounded-full border md:relative md:top-0 md:block',
+                i === lifecycle.length - 1 ? 'border-primary bg-primary' : 'border-rule-strong bg-bg',
+              ]}
+              aria-hidden="true"
+            />
+            <h3 class="text-body font-medium text-fg md:mt-6">{l.name}</h3>
+            <p class="mt-2 max-w-[16rem] text-small text-muted">{l.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="mt-12 max-w-xl text-small text-subtle" data-scroll data-reveal>
+      Rolling back is reactivating an earlier release. Products never read drafts or raw uploads, only the active context.
+    </p>
+  </div>
+</section>

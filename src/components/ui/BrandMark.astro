@@ -1,0 +1,36 @@
+---
+/**
+ * InnerView isotype (spark + tile), from software/innerview/apps/web/public/assets/brand/isotype.svg.
+ * The gradient follows the brand file: #0078c8 → #00c8ff (light), #00b4ff → #00ffff (dark).
+ */
+interface Props {
+  size?: number;
+  class?: string;
+  id?: string;
+}
+
+import { ISOTYPE_PATH } from '../../data/brand';
+
+const { size = 24, class: className, id = 'iv-spark' } = Astro.props;
+const gradientId = `${id}-gradient`;
+---
+
+<svg
+  width={size * (22.11 / 24)}
+  height={size}
+  viewBox="0 0 22.11 24"
+  class={className}
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <linearGradient id={gradientId} x1=".78" y1="15.55" x2="17.45" y2="-1.11" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="var(--spark-from)"></stop>
+      <stop offset="1" stop-color="var(--spark-to)"></stop>
+    </linearGradient>
+  </defs>
+  <path
+    fill={`url(#${gradientId})`}
+    d={ISOTYPE_PATH}
+  ></path>
+</svg>

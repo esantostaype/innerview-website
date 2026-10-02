@@ -1,0 +1,49 @@
+---
+import Icon from './Icon.astro';
+import { Sun03Icon, Moon02Icon, ComputerIcon } from '@hugeicons/core-free-icons';
+
+interface Props {
+  class?: string;
+  tone?: 'default' | 'ink';
+}
+
+const { class: className, tone = 'default' } = Astro.props;
+
+const options = [
+  { value: 'light', label: 'Light theme', icon: Sun03Icon },
+  { value: 'system', label: 'Match system theme', icon: ComputerIcon },
+  { value: 'dark', label: 'Dark theme', icon: Moon02Icon },
+] as const;
+---
+
+<div
+  role="radiogroup"
+  aria-label="Color theme"
+  data-theme-switcher
+  class:list={[
+    'inline-flex items-center gap-0.5 rounded-full border p-0.5',
+    tone === 'ink' ? 'border-ink-rule' : 'border-rule',
+    className,
+  ]}
+>
+  {
+    options.map((o) => (
+      <button
+        type="button"
+        role="radio"
+        aria-checked="false"
+        aria-label={o.label}
+        title={o.label}
+        data-theme-choice={o.value}
+        class:list={[
+          'grid size-8 place-items-center rounded-full transition-[background-color,color] duration-200',
+          tone === 'ink'
+            ? 'text-ink-muted hover:text-ink-fg aria-checked:bg-ink-raised aria-checked:text-ink-fg'
+            : 'text-subtle hover:text-fg aria-checked:bg-sunken aria-checked:text-fg',
+        ]}
+      >
+        <Icon icon={o.icon} size={16} />
+      </button>
+    ))
+  }
+</div>

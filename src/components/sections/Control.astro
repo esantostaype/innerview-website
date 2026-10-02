@@ -1,0 +1,77 @@
+---
+import SplitHeading from '../ui/SplitHeading.astro';
+import { readiness, provenance } from '../../data/content';
+
+const toneVar = { ready: 'var(--state-ready)', review: 'var(--state-review)', blocked: 'var(--state-blocked)' } as const;
+---
+
+<section id="control" class="scroll-mt-20 py-[var(--spacing-section)]" aria-labelledby="control-title">
+  <div class="container-site">
+    <div class="grid gap-8 lg:grid-cols-12">
+      <SplitHeading
+        id="control-title"
+        lines={['Nothing exports', 'until it’s ready.']}
+        class="text-h1 font-[350] lg:col-span-7"
+      />
+      <p class="max-w-md text-body text-muted lg:col-span-4 lg:col-start-9 lg:self-end" data-scroll data-reveal>
+        Every invoice carries a readiness check. Clean invoices go straight into the file. Anything doubtful waits for a
+        person, and a blocker stops the export instead of breaking the ResMan import.
+      </p>
+    </div>
+
+    <ul class="mt-16 border-t border-rule md:mt-24" aria-label="Invoice readiness states">
+      {
+        readiness.map((r, i) => (
+          <li
+            class="state-row group grid items-baseline gap-x-8 gap-y-3 border-b border-rule py-8 md:grid-cols-12 md:py-10"
+            style={`--tone:${toneVar[r.tone]};--reveal-delay:${i * 90}`}
+            data-scroll
+            data-reveal
+          >
+            <p class="flex items-center gap-4 md:col-span-6">
+              <span class="state-dot size-3 shrink-0 rounded-full" />
+              <span class="text-h1 font-[300] leading-none">{r.state}</span>
+            </p>
+            <p class="text-body text-fg md:col-span-3">{r.line}</p>
+            <p class="text-small text-muted md:col-span-3">{r.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Human adjudication -->
+    <div class="mt-24 grid gap-12 md:mt-32 lg:grid-cols-12 lg:gap-8">
+      <figure class="lg:col-span-7" data-scroll data-reveal>
+        <blockquote class="text-h2 font-[350] text-fg">
+          <span class="text-subtle">“</span>Explain what source evidence supports this correction.<span
+            class="text-subtle">”</span
+          >
+        </blockquote>
+        <figcaption class="mt-6 max-w-lg text-body text-muted">
+          A reviewer can’t save a correction without a rationale. Every edit is versioned, and the line shows where its
+          value came from.
+        </figcaption>
+      </figure>
+
+      <dl class="self-end lg:col-span-4 lg:col-start-9" data-scroll data-reveal style="--reveal-delay:150">
+        {
+          provenance.map((p) => (
+            <div class="flex items-center gap-4 border-t border-rule py-4 last:border-b">
+              <dt class="grid size-7 shrink-0 place-items-center rounded-[var(--radius-sm)] bg-sunken text-label font-medium text-fg">
+                {p.mark}
+              </dt>
+              <dd class="text-small text-muted">{p.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .state-dot {
+    background: var(--tone);
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--tone) 16%, transparent);
+  }
+</style>

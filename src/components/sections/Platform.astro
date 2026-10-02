@@ -1,0 +1,93 @@
+---
+import { Image } from 'astro:assets';
+import SplitHeading from '../ui/SplitHeading.astro';
+import homeDark from '../../assets/product/home.dark.png';
+import { forecastMethods } from '../../data/content';
+
+/** Live modules only (apps/web/app/features/routes.ts). */
+const modules = [
+  {
+    name: 'AP Operations',
+    body: 'Inbox, batches, invoice review, accounting rules, the context matrix, vendors and Ready to post.',
+  },
+  {
+    name: 'Data Hub',
+    body: 'Report imports by period, master data and the context releases every module reads from.',
+  },
+  {
+    name: 'Budget planning',
+    body: 'Monthly, quarterly and annual grids, forecast methods per line, version history and the official budget workbook.',
+  },
+  {
+    name: 'Investor portal',
+    body: 'Overview, properties, cash outlook, statements, budget vs actual and documents, published through Close & publish.',
+  },
+];
+---
+
+<section id="platform" class="relative scroll-mt-20 overflow-clip bg-ink py-[var(--spacing-section)] text-ink-fg" aria-labelledby="platform-title">
+  <div class="container-site grid gap-8 lg:grid-cols-12">
+    <SplitHeading
+      id="platform-title"
+      lines={['AP is where it starts.', 'The portfolio is where it lands.']}
+      class="text-h1 font-[350] text-ink-fg lg:col-span-9"
+    />
+    <p class="max-w-md text-body text-ink-muted lg:col-span-5" data-scroll data-reveal>
+      The same workspace that codes your invoices runs budgets and investor reporting on the same governed data, so the
+      numbers in each place agree.
+    </p>
+  </div>
+
+  <!-- Full-bleed product: the workspace overview, cropped by the viewport -->
+  <figure class="relative mt-16 md:mt-24" aria-labelledby="platform-shot-caption">
+    <div class="container-site">
+      <div class="w-[160%] sm:w-[130%] lg:w-[118%]" data-scroll data-scroll-speed="0.08">
+        <div class="overflow-hidden rounded-[var(--radius-frame)] shadow-[0_0_0_1px_var(--ink-rule),0_60px_120px_-40px_rgb(0_0_0/0.8)]" data-scroll data-reveal="rise-clip">
+          <Image
+            src={homeDark}
+            alt="InnerView workspace overview in dark mode, showing portfolio KPIs, actual versus budget, expense breakdown and the AP pipeline."
+            widths={[960, 1440, 2000, 2880]}
+            sizes="(min-width: 1024px) 1500px, 160vw"
+            class="block w-full"
+          />
+        </div>
+      </div>
+    </div>
+    <figcaption id="platform-shot-caption" class="container-site mt-4 text-caption text-ink-muted">
+      Workspace overview · demo workspace, sample data
+    </figcaption>
+  </figure>
+
+  <div class="container-site mt-24 md:mt-32">
+    <dl class="grid border-t border-ink-rule md:grid-cols-2">
+      {
+        modules.map((m, i) => (
+          <div
+            class="border-b border-ink-rule py-8 md:py-10 md:odd:pr-12 md:even:border-l md:even:pl-12"
+            data-scroll
+            data-reveal
+            style={`--reveal-delay:${(i % 2) * 100}`}
+          >
+            <dt class="text-h3 font-[400] text-ink-fg">{m.name}</dt>
+            <dd class="mt-3 max-w-md text-small text-ink-muted">{m.body}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+
+  <!-- Forecast methods: the real list from Budget planning, as a slow typographic band -->
+  <div class="mt-20 md:mt-28" aria-labelledby="forecast-label">
+    <p id="forecast-label" class="container-site text-label text-ink-muted">Forecast methods in Budget planning</p>
+    <ul class="container-site mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-2 border-y border-ink-rule py-8">
+      {
+        forecastMethods.map((m, i) => (
+          <li class="flex items-baseline gap-3 text-h3 font-[300] text-ink-fg" data-scroll data-reveal="fade" style={`--reveal-delay:${i * 35}`}>
+            {m}
+            {i < forecastMethods.length - 1 && <span class="text-ink-rule" aria-hidden="true">/</span>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,127 @@
+---
+import SplitHeading from '../ui/SplitHeading.astro';
+import { routes } from '../../data/content';
+---
+
+<section class="relative bg-ink py-[var(--spacing-section)] text-ink-fg" aria-labelledby="ai-title">
+  <div class="container-site">
+    <div class="grid gap-8 lg:grid-cols-12">
+      <SplitHeading
+        id="ai-title"
+        lines={['Rules first.', 'AI only where the rules end.']}
+        class="text-h1 font-[350] text-ink-fg lg:col-span-8"
+      />
+      <p class="max-w-md text-body text-ink-muted lg:col-span-4 lg:self-end" data-scroll data-reveal>
+        Known vendors run through deterministic parsers with no AI involved. You choose, per batch, document or page,
+        whether AI may step in for documents a parser can’t handle, or whether it is never called at all.
+      </p>
+    </div>
+
+    <!-- Route diagram: geometry only, drawn from the parser standard -->
+    <figure class="mt-16 hidden sm:block md:mt-24" data-scroll data-reveal>
+      <svg viewBox="0 0 1200 260" class="route-diagram h-auto w-full" role="img" aria-labelledby="route-diagram-title">
+        <title id="route-diagram-title">
+          A document goes to its vendor parser and then to the ResMan line. Only when the parser cannot produce a result,
+          and the route allows it, does it go through AI fallback.
+        </title>
+        <g fill="none" stroke-width="1.25">
+          <path class="track" d="M120 110 H520" />
+          <path class="track" d="M680 110 H1080" />
+          <path class="track flow" d="M120 110 H520" />
+          <path class="track flow" d="M680 110 H1080" style="animation-delay:1.1s" />
+          <path class="fallback" d="M600 140 V191" />
+          <path class="fallback" d="M700 215 H880 Q900 215 900 195 V110" />
+        </g>
+        <g class="node">
+          <rect x="20" y="86" width="200" height="48" rx="24"></rect>
+          <text x="120" y="116" text-anchor="middle">Vendor document</text>
+        </g>
+        <g class="node node-primary">
+          <rect x="500" y="80" width="200" height="60" rx="30"></rect>
+          <text x="600" y="116" text-anchor="middle">Vendor parser</text>
+        </g>
+        <g class="node">
+          <rect x="980" y="86" width="200" height="48" rx="24"></rect>
+          <text x="1080" y="116" text-anchor="middle">ResMan line</text>
+        </g>
+        <g class="node node-dashed">
+          <rect x="500" y="191" width="200" height="48" rx="24"></rect>
+          <text x="600" y="221" text-anchor="middle">AI fallback</text>
+        </g>
+        <text class="note" x="614" y="172">only if the parser can’t produce a result</text>
+      </svg>
+    </figure>
+
+    <ul class="mt-16 grid border-t border-ink-rule md:mt-20 md:grid-cols-3" aria-label="Processing routes">
+      {
+        routes.map((r, i) => (
+          <li
+            class="border-b border-ink-rule py-8 md:border-b-0 md:py-10 md:pr-10 md:[&:not(:first-child)]:border-l md:[&:not(:first-child)]:pl-10"
+            data-scroll
+            data-reveal
+            style={`--reveal-delay:${i * 100}`}
+          >
+            <h3 class="text-h3 font-[450] text-ink-fg">{r.name}</h3>
+            <p class="mt-4 text-small text-ink-muted">{r.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .route-diagram {
+    font-family: var(--font-sans);
+  }
+  .track {
+    stroke: var(--ink-rule);
+  }
+  .flow {
+    stroke: var(--accent);
+    stroke-dasharray: 60 400;
+    stroke-dashoffset: 460;
+    animation: route-flow 2.2s var(--ease-in-out-quart) infinite;
+  }
+  .fallback {
+    stroke: var(--ink-muted);
+    stroke-dasharray: 4 6;
+    opacity: 0.7;
+  }
+  .node rect {
+    fill: var(--ink-raised);
+    stroke: var(--ink-rule);
+  }
+  .node text {
+    fill: var(--ink-fg);
+    font-size: 17px;
+  }
+  .node-primary rect {
+    stroke: var(--accent);
+  }
+  .node-dashed rect {
+    fill: transparent;
+    stroke: var(--ink-muted);
+    stroke-dasharray: 4 6;
+  }
+  .node-dashed text {
+    fill: var(--ink-muted);
+  }
+  .note {
+    fill: var(--ink-muted);
+    font-size: 14px;
+  }
+
+  @keyframes route-flow {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow {
+      animation: none;
+      stroke-dasharray: none;
+    }
+  }
+</style>
